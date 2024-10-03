@@ -1,7 +1,7 @@
 ﻿using squarePC.Domain.Common;
 using squarePC.Domain.Exceptions.CpuExceptions;
 
-namespace squarePC.Domain.Aggregates.ConfigurationAggregate;
+namespace squarePC.Domain.Enums.CpuEnums;
 
 public class CpuSocketEnum : Enumeration
 {

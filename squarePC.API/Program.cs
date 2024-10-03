@@ -1,4 +1,18 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using squarePC.API.Infrastructure;
+using squarePC.Application.Application.Extensions;
+using squarePC.Infrastructure.Extensions;
+
+ContainerBuilder build = new ContainerBuilder();
+build.RegisterModule(new ApplicationModule());
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddSquarePcCollectionInfrastructure(builder.Configuration)
+    .AddApplication();
+
+builder.Host.UseServiceProviderFactory(new AutofacChildLifetimeScopeServiceProviderFactory(build.Build()));
 
 // Add services to the container.
 
