@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using squarePC.Infrastructure;
 
 #nullable disable
 
-namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbContext_v0._0._1
+namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbContext_v0._0._2
 {
     [DbContext(typeof(SquarePcContext))]
-    partial class SquarePcContextModelSnapshot : ModelSnapshot
+    [Migration("20241004054728_0.0.002")]
+    partial class _00002
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

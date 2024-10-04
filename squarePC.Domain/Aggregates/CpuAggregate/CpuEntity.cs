@@ -10,10 +10,14 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     {
         public CpuEntity() { }
 
-        public CpuEntity(CpuMainInfoEntity cpuMainInfo, CpuCoreAndArchitectureEntity cpuCoreAndArchitecture,
+        public CpuEntity(decimal cpuPrice, bool inStock, int cpuCount, CpuMainInfoEntity cpuMainInfo,
+            CpuCoreAndArchitectureEntity cpuCoreAndArchitecture,
             CpuClocksAndOcEntity cpuClocksAndOc, CpuTdpInfoEntity cpuTdp, CpuRamInfoEntity cpuRam,
             CpuBusAndControllersEntity cpuBusAndController, CpuGpuCoreInfoEntity cpuGpuCore)
         {
+            _cpuPrice = cpuPrice;
+            _inStock = inStock;
+            _cpuCount = cpuCount;
             CpuMainInfo = cpuMainInfo;
             CpuCoreAndArchitecture = cpuCoreAndArchitecture;
             CpuClocksAndOc = cpuClocksAndOc;
@@ -22,44 +26,65 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             CpuBusAndController = cpuBusAndController;
             CpuGpuCore = cpuGpuCore;
         }
+
+        /// <summary>
+        /// Цена
+        /// </summary>
+        public decimal Price => _cpuPrice;
+        private decimal _cpuPrice;
+
+        /// <summary>
+        /// Наличие процессора
+        /// </summary>
+        public string InStock => _inStock ? "Да" : "Нет";
+        private bool _inStock;
+
+        /// <summary>
+        /// Кол-во штук в наличии
+        /// </summary>
+        public string CpuCount => _cpuCount + " шт.";
+        private int _cpuCount;
         
         /// <summary>
-        /// Общие параметры процессора
+        /// Общие параметры
         /// </summary>
         public CpuMainInfoEntity CpuMainInfo { get; private set; }
         private Guid _cpuMainInfoId;
         
+        /// <summary>
+        /// Ядро и архитектура
+        /// </summary>
         public CpuCoreAndArchitectureEntity CpuCoreAndArchitecture { get; private set; }
         private Guid _cpuCoreAndArchitectureId;
         
+        /// <summary>
+        /// Частота и возможность разгона
+        /// </summary>
         public CpuClocksAndOcEntity CpuClocksAndOc { get; private set; }
         private Guid _cpuClocksAndOcId;
         
+        /// <summary>
+        /// Тепловые характеристики
+        /// </summary>
         public CpuTdpInfoEntity CpuTdp { get; private set; }
         private Guid _cpuTdpId;
         
+        /// <summary>
+        /// Параметры ОЗУ
+        /// </summary>
         public CpuRamInfoEntity CpuRam { get; private set; }
         private Guid _cpuRamId;
         
+        /// <summary>
+        /// Шина и контроллер
+        /// </summary>
         public CpuBusAndControllersEntity CpuBusAndController { get; private set; }
         private Guid _cpuBusAndControllerId;
         
+        /// <summary>
+        /// Графическое ядро
+        /// </summary>
         public CpuGpuCoreInfoEntity CpuGpuCore { get; private set; }
         private Guid _cpuGpuCoreId;
-
-        /// <summary>
-        /// Добавление нового процессора
-        /// </summary>
-        public void CreateNewCpu(Guid cpuMainInfoId, Guid cpuCoreAndArchitectureId, Guid cpuClocksAndOcId,
-            Guid cpuTdpId, Guid cpuRamId, Guid cpuBusAndControllerId, Guid cpuGpuCoreId)
-        {
-            _cpuMainInfoId = cpuMainInfoId;
-            _cpuCoreAndArchitectureId = cpuCoreAndArchitectureId;
-            _cpuClocksAndOcId = cpuClocksAndOcId;
-            _cpuTdpId = cpuTdpId;
-            _cpuRamId = cpuRamId;
-            _cpuBusAndControllerId = cpuBusAndControllerId;
-            _cpuGpuCoreId = cpuGpuCoreId;
-        }
     }
 }

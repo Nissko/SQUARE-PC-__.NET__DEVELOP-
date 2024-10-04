@@ -13,6 +13,18 @@ namespace squarePC.Infrastructure.Configurations.Cpu
 
             cpuConfiguration.HasKey(o => o.Id);
 
+            cpuConfiguration
+                .Property<decimal>("_cpuPrice")
+                .HasColumnName("Price");
+            
+            cpuConfiguration
+                .Property<bool>("_inStock")
+                .HasColumnName("InStock");
+            
+            cpuConfiguration
+                .Property<int>("_cpuCount")
+                .HasColumnName("CpuCount");
+            
             cpuConfiguration.HasOne(c=> c.CpuMainInfo)
                 .WithMany()
                 .HasForeignKey("_cpuMainInfoId");
