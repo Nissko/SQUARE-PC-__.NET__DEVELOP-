@@ -3,3 +3,58 @@ Add-Migration -Context SquarePcContext -o Persistence\Providers\Migrations\Squar
 
 2) 
 Update-DataBase -context SquarePcContext
+
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('98af8330-c0f7-4b37-a948-11e1ff3de035'::uuid, 'Ryzen 3');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('b40e36d9-2118-4fa8-8cd0-d2cadd067d77'::uuid, 'Ryzen 5');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('7dc5f4a3-30bf-46f0-87ab-195690f60f2f'::uuid, 'Ryzen 7');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('f3db9a45-81d2-4a6b-b04d-cc5b7ca045be'::uuid, 'Ryzen 9');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('06c1bee5-dbd0-4ef1-9b0e-564ac4e378aa'::uuid, 'Ryzen Threadripper');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('db7f2efd-d0c0-4f48-826f-8347daed4256'::uuid, 'Core I3');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('379a6e77-5549-4869-899e-146e7eb97152'::uuid, 'Core I5');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('9c56b7fc-ddf4-41b5-bd23-b97a539ba8d3'::uuid, 'Core I7');
+INSERT INTO public."CpuFamilies"
+("Id", "Name")
+VALUES('326dd069-6513-4d29-9487-7f4233c7e4f5'::uuid, 'Core I9');
+
+
+
+INSERT INTO public."CpuSockets"
+("Id", "Name")
+VALUES('3cef7d97-fb57-4386-a107-9c0997634b11'::uuid, 'AMD4');
+INSERT INTO public."CpuSockets"
+("Id", "Name")
+VALUES('ae4c7b42-d6d3-4bd6-ad4c-0aadb197c614'::uuid, 'AM5');
+INSERT INTO public."CpuSockets"
+("Id", "Name")
+VALUES('3cc3993f-e3de-4081-8da2-ba3f303b9ea0'::uuid, 'LGA 1700');
+INSERT INTO public."CpuSockets"
+("Id", "Name")
+VALUES('1284b103-ddb1-4146-b571-efdd874db9d2'::uuid, 'LGA 1200');
+INSERT INTO public."CpuSockets"
+("Id", "Name")
+VALUES('cc011285-1129-4367-ba69-455229c7a0e4'::uuid, 'LGA 1151-v2');
+
+
+
+INSERT INTO public."CpuMemories"
+("Id", "Name")
+VALUES('e4689125-ca3e-4b07-ac23-9f8acd88844b'::uuid, 'DDR4');
+INSERT INTO public."CpuMemories"
+("Id", "Name")
+VALUES('5d60f162-61ce-4f04-a2cc-d7dae9cc53fb'::uuid, 'DDR5');

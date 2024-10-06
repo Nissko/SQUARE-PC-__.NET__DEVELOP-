@@ -9,7 +9,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     public class CpuMainInfoEntity : Entity
     {
         public CpuMainInfoEntity(Guid familyCpuId, string model, Guid socketId, string codeManufacture,
-            DateTime releaseDate, string warranty, Guid cpuId)
+            DateTime releaseDate, string warranty)
         {
             _familyCpuId = familyCpuId;
             _model = model;
@@ -17,19 +17,14 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             _codeManufacture = codeManufacture;
             _releaseDate = releaseDate;
             _warranty = warranty;
-            CpuId = cpuId;
+            _name = CpuNameFunction(_familyCpuId, _model);
         }
-
-        /// <summary>
-        /// Внешний ключ процессора
-        /// </summary>
-        public Guid CpuId { get; private set; }
         
         /// <summary>
         /// Название процессора
         /// </summary>
         private string _name;
-        public string CpuName => CpuNameFunction(_familyCpuId, _model);
+        public string CpuName => _name;
 
         /// <summary>
         /// Семейство процессора
@@ -70,11 +65,9 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// <summary>
         /// Формирование названия процессора
         /// </summary>
-        /// <param name="familyCpu"></param>
-        /// <param name="modelCpu"></param>
         private string CpuNameFunction(Guid familyCpuId, string modelCpu)
         {
-            var familyCpu = CpuFamily.Name;
+            var familyCpu = CpuFamilyEnum.From(familyCpuId);
 
             if (familyCpu.Length == 0 || modelCpu.Length == 0)
             {

@@ -13,8 +13,6 @@ namespace squarePC.Infrastructure.Configurations.Cpu
 
             cpuConfiguration.HasKey(o => o.Id);
             
-            cpuConfiguration.Property<Guid>("CpuId");
-            
             cpuConfiguration
                 .Property<decimal>("_baseClock")
                 .HasColumnName("BaseClock");

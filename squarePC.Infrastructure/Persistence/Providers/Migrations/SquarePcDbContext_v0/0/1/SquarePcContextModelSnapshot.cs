@@ -51,9 +51,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CpuId")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal>("_baseClock")
                         .HasColumnType("numeric")
                         .HasColumnName("BaseClock");
@@ -83,9 +80,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("_allCores")
@@ -196,9 +190,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CpuId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("_cpuGraphBlocks")
                         .HasColumnType("integer")
                         .HasColumnName("GraphBlocks");
@@ -229,9 +220,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("_codeManufacture")
@@ -279,9 +267,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CpuId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("_clockMemory")
                         .HasColumnType("integer")
                         .HasColumnName("ClockMemory");
@@ -312,9 +297,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("_TDP")

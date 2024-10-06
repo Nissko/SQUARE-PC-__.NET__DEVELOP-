@@ -8,21 +8,15 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     public class CpuGpuCoreInfoEntity : Entity
     {
         public CpuGpuCoreInfoEntity(bool hasGpuCore, string cpuModelGraphCore, int cpuMaxClockGraphCore,
-            int cpuGraphBlocks, int cpuShadingUnits, Guid cpuId)
+            int cpuGraphBlocks, int cpuShadingUnits)
         {
             _hasGpuCore = hasGpuCore;
             _cpuModelGraphCore = cpuModelGraphCore;
             _cpuMaxClockGraphCore = cpuMaxClockGraphCore;
             _cpuGraphBlocks = cpuGraphBlocks;
             _cpuShadingUnits = cpuShadingUnits;
-            CpuId = cpuId;
         }
 
-        /// <summary>
-        /// Внешний ключ процессора
-        /// </summary>
-        public Guid CpuId { get; private set; }
-        
         /// <summary>
         /// Есть ли графическое ядро (Да/Нет)
         /// </summary>

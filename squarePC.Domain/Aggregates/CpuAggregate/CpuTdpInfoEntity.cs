@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using squarePC.Domain.Common;
 
 namespace squarePC.Domain.Aggregates.CpuAggregate
@@ -8,34 +9,32 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     public class CpuTdpInfoEntity : Entity
     {
         public CpuTdpInfoEntity() { }
-        public CpuTdpInfoEntity(int tdp, int baseTdp, int maxTempCpu, Guid cpuId)
+
+        public CpuTdpInfoEntity(int tdp, int baseTdp, int maxTempCpu)
         {
             _TDP = tdp;
             _baseTDP = baseTdp;
             _maxTempCPU = maxTempCpu;
-            CpuId = cpuId;
         }
 
         /// <summary>
-        /// Внешний ключ процессора
-        /// </summary>
-        public Guid CpuId { get; private set; }
-        
-        /// <summary>
         /// Тепловыделение
         /// </summary>
+        [Range(0, 9999)]
         private int _TDP;
         public string TDP => _TDP.ToString();
 
         /// <summary>
         /// Базовое тепловыделение
         /// </summary>
+        [Range(0, 9999)]
         private int _baseTDP;
         public string BaseTDP => _baseTDP.ToString();
 
         /// <summary>
         /// Максимальная температура процессора
         /// </summary>
+        [Range(0, 9999)]
         private int _maxTempCPU;
         public string MaxTempCPU => _maxTempCPU.ToString();
     }

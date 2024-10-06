@@ -12,9 +12,7 @@ namespace squarePC.Infrastructure.Configurations.Cpu
             cpuConfiguration.ToTable("CpuGpuCoreInfos");
 
             cpuConfiguration.HasKey(o => o.Id);
-            
-            cpuConfiguration.Property<Guid>("CpuId");
-            
+
             cpuConfiguration
                 .Property<bool>("_hasGpuCore")
                 .HasColumnName("HasGpuCore");

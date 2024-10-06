@@ -12,8 +12,8 @@ using squarePC.Infrastructure;
 namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbContext_v0._0._1
 {
     [DbContext(typeof(SquarePcContext))]
-    [Migration("20241003212407_0.0.001")]
-    partial class _00001
+    [Migration("20241006132745_0.0.1")]
+    partial class _001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,9 +54,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CpuId")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal>("_baseClock")
                         .HasColumnType("numeric")
                         .HasColumnName("BaseClock");
@@ -86,9 +83,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("_allCores")
@@ -150,17 +144,29 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                     b.Property<Guid>("_cpuCoreAndArchitectureId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("_cpuCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("CpuCount");
+
                     b.Property<Guid>("_cpuGpuCoreId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("_cpuMainInfoId")
                         .HasColumnType("uuid");
 
+                    b.Property<decimal>("_cpuPrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("Price");
+
                     b.Property<Guid>("_cpuRamId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("_cpuTdpId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("_inStock")
+                        .HasColumnType("boolean")
+                        .HasColumnName("InStock");
 
                     b.HasKey("Id");
 
@@ -185,9 +191,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("_cpuGraphBlocks")
@@ -220,9 +223,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("_codeManufacture")
@@ -270,9 +270,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CpuId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("_clockMemory")
                         .HasColumnType("integer")
                         .HasColumnName("ClockMemory");
@@ -303,9 +300,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("_TDP")

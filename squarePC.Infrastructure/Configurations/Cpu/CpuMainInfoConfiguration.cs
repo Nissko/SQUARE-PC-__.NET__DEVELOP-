@@ -12,9 +12,7 @@ namespace squarePC.Infrastructure.Configurations.Cpu
             cpuConfiguration.ToTable("CpuMainInfos");
 
             cpuConfiguration.HasKey(o => o.Id);
-            
-            cpuConfiguration.Property<Guid>("CpuId");
-            
+
             cpuConfiguration
                 .Property<string>("_name")
                 .HasColumnName("Name");

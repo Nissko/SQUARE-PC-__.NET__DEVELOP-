@@ -7,21 +7,16 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     /// </summary>
     public class CpuClocksAndOcEntity : Entity
     {
+        
         public CpuClocksAndOcEntity(decimal baseClock, decimal turboClock, decimal baseClockECore,
-            decimal turboClockECore, bool freeMultiplier, Guid cpuId)
+            decimal turboClockECore, bool freeMultiplier)
         {
             _baseClock = baseClock;
             _turboClock = turboClock;
             _baseClockECore = baseClockECore;
             _turboClockECore = turboClockECore;
             _freeMultiplier = freeMultiplier;
-            CpuId = cpuId;
         }
-        
-        /// <summary>
-        /// Внешний ключ процессора
-        /// </summary>
-        public Guid CpuId { get; private set; }
         
         /// <summary>
         /// Базовая частота процессора

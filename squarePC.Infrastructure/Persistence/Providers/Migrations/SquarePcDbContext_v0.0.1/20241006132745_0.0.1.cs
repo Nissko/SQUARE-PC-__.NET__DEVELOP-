@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbContext_v0._0._1
 {
     /// <inheritdoc />
-    public partial class _00001 : Migration
+    public partial class _001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CpuId = table.Column<Guid>(type: "uuid", nullable: false),
                     BaseClock = table.Column<decimal>(type: "numeric", nullable: false),
                     BaseClockECore = table.Column<decimal>(type: "numeric", nullable: false),
                     FreeMultiplier = table.Column<bool>(type: "boolean", nullable: false),
@@ -47,7 +46,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CpuId = table.Column<Guid>(type: "uuid", nullable: false),
                     AllCores = table.Column<int>(type: "integer", nullable: false),
                     AllThreads = table.Column<int>(type: "integer", nullable: false),
                     CacheL2 = table.Column<string>(type: "text", nullable: false),
@@ -80,7 +78,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CpuId = table.Column<Guid>(type: "uuid", nullable: false),
                     GraphBlocks = table.Column<int>(type: "integer", nullable: false),
                     MaxClockGraphCore = table.Column<int>(type: "integer", nullable: false),
                     ModelGraphCore = table.Column<string>(type: "text", nullable: false),
@@ -121,7 +118,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CpuId = table.Column<Guid>(type: "uuid", nullable: false),
                     TDP = table.Column<int>(type: "integer", nullable: false),
                     BaseTDP = table.Column<int>(type: "integer", nullable: false),
                     MaxTempCPU = table.Column<int>(type: "integer", nullable: false)
@@ -136,7 +132,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CpuId = table.Column<Guid>(type: "uuid", nullable: false),
                     _memoryTypeId = table.Column<Guid>(type: "uuid", nullable: false),
                     ClockMemory = table.Column<int>(type: "integer", nullable: false),
                     MaxChannelMemory = table.Column<int>(type: "integer", nullable: false),
@@ -159,7 +154,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CpuId = table.Column<Guid>(type: "uuid", nullable: false),
                     _familyCpuId = table.Column<Guid>(type: "uuid", nullable: false),
                     _socketId = table.Column<Guid>(type: "uuid", nullable: false),
                     CodeManufacture = table.Column<string>(type: "text", nullable: false),
@@ -196,7 +190,10 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                     _cpuTdpId = table.Column<Guid>(type: "uuid", nullable: false),
                     _cpuRamId = table.Column<Guid>(type: "uuid", nullable: false),
                     _cpuBusAndControllerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    _cpuGpuCoreId = table.Column<Guid>(type: "uuid", nullable: false)
+                    _cpuGpuCoreId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CpuCount = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    InStock = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -5,18 +5,20 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
 {
     /// <summary>
     /// Процессор
+    /// TODO: Предусмотреть добавления изображения
     /// </summary>
     public class CpuEntity : Entity
     {
         public CpuEntity() { }
 
-        public CpuEntity(decimal cpuPrice, bool inStock, int cpuCount, CpuMainInfoEntity cpuMainInfo,
+        public CpuEntity(decimal cpuPrice, int cpuCount, CpuMainInfoEntity cpuMainInfo,
             CpuCoreAndArchitectureEntity cpuCoreAndArchitecture,
             CpuClocksAndOcEntity cpuClocksAndOc, CpuTdpInfoEntity cpuTdp, CpuRamInfoEntity cpuRam,
             CpuBusAndControllersEntity cpuBusAndController, CpuGpuCoreInfoEntity cpuGpuCore)
         {
+            ArgumentOutOfRangeException.ThrowIfNegative(cpuCount);
+
             _cpuPrice = cpuPrice;
-            _inStock = inStock;
             _cpuCount = cpuCount;
             CpuMainInfo = cpuMainInfo;
             CpuCoreAndArchitecture = cpuCoreAndArchitecture;
@@ -25,6 +27,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             CpuRam = cpuRam;
             CpuBusAndController = cpuBusAndController;
             CpuGpuCore = cpuGpuCore;
+            _inStock = _cpuCount > 0 ? true : false;
         }
 
         /// <summary>
@@ -86,5 +89,6 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// </summary>
         public CpuGpuCoreInfoEntity CpuGpuCore { get; private set; }
         private Guid _cpuGpuCoreId;
+        
     }
 }

@@ -9,21 +9,16 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     public class CpuRamInfoEntity : Entity
     {
         public CpuRamInfoEntity() { }
+
         public CpuRamInfoEntity(Guid memoryTypeId, int maxValueMemory, int maxChannelMemory, int clockMemory,
-            bool supportEcc, Guid cpuId)
+            bool supportEcc)
         {
             _memoryTypeId = memoryTypeId;
             _maxValueMemory = maxValueMemory;
             _maxChannelMemory = maxChannelMemory;
             _clockMemory = clockMemory;
             _supportECC = supportEcc;
-            CpuId = cpuId;
         }
-
-        /// <summary>
-        /// Внешний ключ процессора
-        /// </summary>
-        public Guid CpuId { get; private set; }
         
         /// <summary>
         /// Тип поддерживаемой памяти

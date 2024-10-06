@@ -12,9 +12,7 @@ namespace squarePC.Infrastructure.Configurations.Cpu
             cpuConfiguration.ToTable("CpuRamInfos");
 
             cpuConfiguration.HasKey(o => o.Id);
-            
-            cpuConfiguration.Property<Guid>("CpuId");
-            
+
             cpuConfiguration.HasOne(c => c.MemoryType)
                 .WithMany()
                 .HasForeignKey("_memoryTypeId");

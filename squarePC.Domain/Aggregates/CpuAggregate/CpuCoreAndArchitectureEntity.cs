@@ -8,24 +8,18 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     public class CpuCoreAndArchitectureEntity : Entity
     {
         public CpuCoreAndArchitectureEntity(int pCores, int eCores, string cacheL2, string cacheL3,
-            int technoProcess, string coreName, bool virtualization, Guid cpuId)
+            int technoProcess, string coreName, bool virtualization)
         {
             _pCores = pCores;
             _eCores = eCores;
             _allCores = _pCores + _eCores;
-            _allThreads = CalculationAllTheadsFunction(_pCores, _eCores, _virtualization);
             _cacheL2 = cacheL2;
             _cacheL3 = cacheL3;
             _technoProcess = technoProcess;
             _coreName = coreName;
             _virtualization = virtualization;
-            CpuId = cpuId;
+            _allThreads = CalculationAllTheadsFunction(_pCores, _eCores, _virtualization);
         }
-
-        /// <summary>
-        /// Внешний ключ процессора
-        /// </summary>
-        public Guid CpuId { get; private set; }
         
         /// <summary>
         /// Общее количество ядер
@@ -84,16 +78,12 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// <summary>
         /// Расчет потоков процессора
         /// </summary>
-        private int CalculationAllTheadsFunction(int pCores, int eCores, bool virtualisation)
+        private int CalculationAllTheadsFunction(int pCores, int eCores, bool virtualization)
         {
-            var totalThreads = 0;
-
-            if (virtualisation)
-            {
+            if (virtualization)
                 pCores *= 2;
-            }
 
-            totalThreads = pCores + eCores;
+            var totalThreads = pCores + eCores;
 
             return totalThreads;
         }

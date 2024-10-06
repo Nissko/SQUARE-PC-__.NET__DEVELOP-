@@ -7,17 +7,11 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     /// </summary>
     public class CpuBusAndControllersEntity : Entity
     {
-        public CpuBusAndControllersEntity(string pciExpressControllerVersion, int countLinesPciExpress, Guid cpuId)
+        public CpuBusAndControllersEntity(string pciExpressControllerVersion, int countLinesPciExpress)
         {
             _pciExpressControllerVersion = pciExpressControllerVersion;
             _countLinesPciExpress = countLinesPciExpress;
-            CpuId = cpuId;
         }
-
-        /// <summary>
-        /// Внешний ключ процессора
-        /// </summary>
-        public Guid CpuId { get; private set; }
 
         /// <summary>
         /// Встроенный контроллер PCI Express
