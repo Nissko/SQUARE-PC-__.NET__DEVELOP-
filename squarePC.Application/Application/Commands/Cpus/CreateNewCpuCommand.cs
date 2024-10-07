@@ -1,5 +1,5 @@
 using MediatR;
-using squarePC.Application.Application.Templates.CpusRequest;
+using squarePC.Application.Application.Templates.Request.Cpu;
 
 namespace squarePC.Application.Application.Commands.Cpus
 {

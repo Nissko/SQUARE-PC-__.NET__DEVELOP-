@@ -47,6 +47,18 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// </summary>
         private bool _freeMultiplier;
         public string CpuFreeMultiplier => _freeMultiplier ? "Да" : "Нет";
+
+        public async Task<CpuClocksAndOcEntity> UpdateClocksAndOc(decimal? updateBaseClock, decimal? updateTurboClock,
+            decimal? updateBaseClockECore, decimal? updateTurboClockECore, bool? updateFreeMultiplier)
+        {
+            _baseClock = updateBaseClock ?? _baseClock;
+            _turboClock = updateTurboClock ?? _turboClock;
+            _baseClockECore = updateBaseClockECore ?? _baseClockECore;
+            _turboClockECore = updateTurboClockECore ?? _turboClockECore;
+            _freeMultiplier = updateFreeMultiplier ?? _freeMultiplier;
+
+            return this;
+        }
     }
 }
 

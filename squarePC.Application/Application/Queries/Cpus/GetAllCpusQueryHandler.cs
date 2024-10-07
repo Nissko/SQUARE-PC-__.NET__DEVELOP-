@@ -21,18 +21,17 @@ namespace squarePC.Application.Application.Queries.Cpus
         {
             var cpus = await _context.Cpus
                 .Include(t => t.CpuMainInfo)
-                    .ThenInclude(t => t.CpuFamily)
+                .ThenInclude(t => t.CpuFamily)
                 .Include(t => t.CpuMainInfo)
-                    .ThenInclude(t => t.CpuSocket) 
+                .ThenInclude(t => t.CpuSocket)
                 .Include(t => t.CpuCoreAndArchitecture)
                 .Include(t => t.CpuClocksAndOc)
                 .Include(t => t.CpuTdp)
                 .Include(t => t.CpuRam)
-                    .ThenInclude(t=> t.MemoryType)
+                .ThenInclude(t => t.MemoryType)
                 .Include(t => t.CpuBusAndController)
                 .Include(t => t.CpuGpuCore)
                 .ToListAsync() ?? throw new ArgumentNullException("Не удалось найти доступные процессоры");
-            
             
             return cpus;
         }

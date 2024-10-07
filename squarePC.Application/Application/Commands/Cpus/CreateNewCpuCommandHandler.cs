@@ -1,5 +1,5 @@
 using MediatR;
-using squarePC.Application.Application.Templates.CpusRequest;
+using squarePC.Application.Application.Templates.Request.Cpu;
 using squarePC.Application.Common.Interfaces;
 using squarePC.Domain.Aggregates.CpuAggregate;
 
@@ -8,12 +8,10 @@ namespace squarePC.Application.Application.Commands.Cpus
     public class CreateNewCpuCommandHandler : IRequestHandler<CreateNewCpuCommand, Unit>
     {
         private readonly ISquarePcContext _context;
-        private readonly IMediator _mediator;
 
-        public CreateNewCpuCommandHandler(ISquarePcContext context, IMediator mediator)
+        public CreateNewCpuCommandHandler(ISquarePcContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<Unit> Handle(CreateNewCpuCommand request, CancellationToken cancellationToken)
@@ -21,9 +19,8 @@ namespace squarePC.Application.Application.Commands.Cpus
             var cpuRequest = request.CreateCpu;
             
             var newCpu = await AddNewCpu(cpuRequest);
-
-            await _context.Cpus.AddAsync(newCpu, cancellationToken);
             
+            await _context.Cpus.AddAsync(newCpu, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
@@ -33,53 +30,53 @@ namespace squarePC.Application.Application.Commands.Cpus
         {
             var cpuEntity = new CpuEntity(
                 cpuPrice: cpuRequest.price,
-                cpuCount: cpuRequest.cpuCount,
+                cpuCount: cpuRequest.count,
                 cpuMainInfo: new CpuMainInfoEntity(
-                    familyCpuId: cpuRequest.cpuMainInfo.FamilyCpuId,
-                    model: cpuRequest.cpuMainInfo.Model,
-                    socketId: cpuRequest.cpuMainInfo.SocketId,
-                    codeManufacture: cpuRequest.cpuMainInfo.CodeManufacture,
-                    releaseDate: cpuRequest.cpuMainInfo.ReleaseDate,
-                    warranty: cpuRequest.cpuMainInfo.Warranty
+                    familyCpuId: cpuRequest.mainInfo.FamilyCpuId,
+                    model: cpuRequest.mainInfo.Model,
+                    socketId: cpuRequest.mainInfo.SocketId,
+                    codeManufacture: cpuRequest.mainInfo.CodeManufacture,
+                    releaseDate: cpuRequest.mainInfo.ReleaseDate,
+                    warranty: cpuRequest.mainInfo.Warranty
                 ),
                 cpuCoreAndArchitecture: new CpuCoreAndArchitectureEntity(
-                    pCores: cpuRequest.cpuCoreAndArchitecture.pCore,
-                    eCores: cpuRequest.cpuCoreAndArchitecture.eCore,
-                    cacheL2: cpuRequest.cpuCoreAndArchitecture.cacheL2,
-                    cacheL3: cpuRequest.cpuCoreAndArchitecture.cacheL3,
-                    technoProcess: cpuRequest.cpuCoreAndArchitecture.technoProcess,
-                    coreName: cpuRequest.cpuCoreAndArchitecture.coreName,
-                    virtualization: cpuRequest.cpuCoreAndArchitecture.virtualization
+                    pCores: cpuRequest.coreAndArchitecture.pCore,
+                    eCores: cpuRequest.coreAndArchitecture.eCore,
+                    cacheL2: cpuRequest.coreAndArchitecture.cacheL2,
+                    cacheL3: cpuRequest.coreAndArchitecture.cacheL3,
+                    technoProcess: cpuRequest.coreAndArchitecture.technoProcess,
+                    coreName: cpuRequest.coreAndArchitecture.coreName,
+                    virtualization: cpuRequest.coreAndArchitecture.virtualization
                 ),
                 cpuClocksAndOc: new CpuClocksAndOcEntity(
-                    baseClock: cpuRequest.CpuClocksAndOc.baseClock,
-                    turboClock: cpuRequest.CpuClocksAndOc.turboClock,
-                    baseClockECore: cpuRequest.CpuClocksAndOc.baseClockECore,
-                    turboClockECore: cpuRequest.CpuClocksAndOc.turboClockECore,
-                    freeMultiplier: cpuRequest.CpuClocksAndOc.freeMultiplier
+                    baseClock: cpuRequest.clocksAndOc.baseClock,
+                    turboClock: cpuRequest.clocksAndOc.turboClock,
+                    baseClockECore: cpuRequest.clocksAndOc.baseClockECore,
+                    turboClockECore: cpuRequest.clocksAndOc.turboClockECore,
+                    freeMultiplier: cpuRequest.clocksAndOc.freeMultiplier
                 ),
                 cpuTdp: new CpuTdpInfoEntity(
-                    tdp: cpuRequest.cpuTdp.Tdp,
-                    baseTdp: cpuRequest.cpuTdp.BaseTdp,
-                    maxTempCpu: cpuRequest.cpuTdp.MaxTempCpu
+                    tdp: cpuRequest.tdp.Tdp,
+                    baseTdp: cpuRequest.tdp.BaseTdp,
+                    maxTempCpu: cpuRequest.tdp.MaxTempCpu
                 ),
                 cpuRam: new CpuRamInfoEntity(
-                    memoryTypeId: cpuRequest.cpuRam.MemoryTypeId,
-                    maxValueMemory: cpuRequest.cpuRam.MaxValueMemory,
-                    maxChannelMemory: cpuRequest.cpuRam.MaxChannelMemory,
-                    clockMemory: cpuRequest.cpuRam.ClockMemory,
-                    supportEcc: cpuRequest.cpuRam.SupportEcc
+                    memoryTypeId: cpuRequest.ram.MemoryTypeId,
+                    maxValueMemory: cpuRequest.ram.MaxValueMemory,
+                    maxChannelMemory: cpuRequest.ram.MaxChannelMemory,
+                    clockMemory: cpuRequest.ram.ClockMemory,
+                    supportEcc: cpuRequest.ram.SupportEcc
                 ),
                 cpuBusAndController: new CpuBusAndControllersEntity(
-                    pciExpressControllerVersion: cpuRequest.cpuBusAndController.PciExpressControllerVersion,
-                    countLinesPciExpress: cpuRequest.cpuBusAndController.CountLinesPciExpress
+                    pciExpressControllerVersion: cpuRequest.busAndController.PciExpressControllerVersion,
+                    countLinesPciExpress: cpuRequest.busAndController.CountLinesPciExpress
                 ),
                 cpuGpuCore: new CpuGpuCoreInfoEntity(
-                    hasGpuCore: cpuRequest.cpuGpuCore.hasGpuCore,
-                    cpuModelGraphCore: cpuRequest.cpuGpuCore.cpuModelGraphCore,
-                    cpuMaxClockGraphCore: cpuRequest.cpuGpuCore.cpuMaxClockGraphCore,
-                    cpuGraphBlocks: cpuRequest.cpuGpuCore.cpuGraphBlocks,
-                    cpuShadingUnits: cpuRequest.cpuGpuCore.cpuShadingUnits
+                    hasGpuCore: cpuRequest.gpuCore.hasGpuCore,
+                    cpuModelGraphCore: cpuRequest.gpuCore.cpuModelGraphCore,
+                    cpuMaxClockGraphCore: cpuRequest.gpuCore.cpuMaxClockGraphCore,
+                    cpuGraphBlocks: cpuRequest.gpuCore.cpuGraphBlocks,
+                    cpuShadingUnits: cpuRequest.gpuCore.cpuShadingUnits
                 )
             );
 

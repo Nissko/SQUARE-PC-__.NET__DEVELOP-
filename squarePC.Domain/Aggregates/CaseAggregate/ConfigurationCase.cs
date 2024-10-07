@@ -1,4 +1,4 @@
-﻿namespace squarePC.Domain.Aggregates.ConfigurationAggregate;
+﻿namespace squarePC.Domain.Aggregates.CaseAggregate;
 
 public class ConfigurationCase
 {

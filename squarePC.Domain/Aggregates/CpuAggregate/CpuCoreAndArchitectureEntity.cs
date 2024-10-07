@@ -87,5 +87,22 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
 
             return totalThreads;
         }
+
+        public async Task<CpuCoreAndArchitectureEntity> UpdateCoreAndArchitecture(int? updatePCores, int? updateECores,
+            string updateCacheL2, string updateCacheL3, int? updateTechnoProcess, string updateCoreName,
+            bool? updateVirtualization)
+        {
+            _pCores = updatePCores ?? _pCores;
+            _eCores = updateECores ?? _eCores;
+            _allCores = _pCores + _eCores;
+            _cacheL2 = updateCacheL2 ?? _cacheL2;
+            _cacheL3 = updateCacheL3 ?? _cacheL3;
+            _technoProcess = updateTechnoProcess ?? _technoProcess;
+            _coreName = updateCoreName ?? _coreName;
+            _virtualization = updateVirtualization ?? _virtualization;
+            _allThreads = CalculationAllTheadsFunction(_pCores, _eCores, _virtualization);
+
+            return this;
+        }
     }
 }

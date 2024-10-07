@@ -1,11 +1,11 @@
-﻿using squarePC.Domain.Aggregates.ConfigurationAggregate;
-using squarePC.Domain.Common;
+﻿using squarePC.Domain.Common;
 
 namespace squarePC.Domain.Aggregates.CpuAggregate
 {
     /// <summary>
     /// Процессор
     /// TODO: Предусмотреть добавления изображения
+    /// TODO: Исправить баги, недочеты
     /// </summary>
     public class CpuEntity : Entity
     {
@@ -45,7 +45,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// <summary>
         /// Кол-во штук в наличии
         /// </summary>
-        public string CpuCount => _cpuCount + " шт.";
+        public int CpuCount => _cpuCount;
         private int _cpuCount;
         
         /// <summary>
@@ -89,6 +89,42 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// </summary>
         public CpuGpuCoreInfoEntity CpuGpuCore { get; private set; }
         private Guid _cpuGpuCoreId;
-        
+
+        public async Task<CpuEntity> UpdateCpu(Guid cpuId, decimal? updatePrice, int? updateCount, Guid? familyCpuId,
+            string modelCpu, Guid? socketId, string codeManufacture, DateTime? releaseDate, string warranty,
+            int? updatePCores, int? updateECores, string updateCacheL2, string updateCacheL3, int? updateTechnoProcess,
+            string updateCoreName, bool? updateVirtualization, decimal? updateBaseClock, decimal? updateTurboClock,
+            decimal? updateBaseClockECore, decimal? updateTurboClockECore, bool? updateFreeMultiplier, int? updateTdp,
+            int? updateBaseTdp, int? updateMaxTempCpu, Guid memoryTypeId, int? maxValueMemory, int? maxChannelMemory,
+            int? clockMemory, bool? supportEcc, string pciExpressControllerVersion, int countLinesPciExpress,
+            bool? hasGpuCore, string cpuModelGraphCore, int? cpuMaxClockGraphCore, int? cpuGraphBlocks,
+            int? cpuShadingUnits)
+
+        {
+            if (!Id.Equals(cpuId))
+            {
+                /*TODO: Переделать исключение*/
+                throw new ArgumentException("Invalid");
+            }
+
+            _cpuPrice = updatePrice ?? _cpuPrice;
+            _cpuCount = updateCount ?? _cpuCount;
+            _inStock = _cpuCount > 0 ? true : false;
+
+            CpuMainInfo = await CpuMainInfo.UpdateMainInfo(familyCpuId, modelCpu, socketId, codeManufacture,
+                releaseDate, warranty);
+            CpuCoreAndArchitecture = await CpuCoreAndArchitecture.UpdateCoreAndArchitecture(updatePCores, updateECores,
+                updateCacheL2, updateCacheL3, updateTechnoProcess, updateCoreName, updateVirtualization);
+            CpuClocksAndOc = await CpuClocksAndOc.UpdateClocksAndOc(updateBaseClock, updateTurboClock,
+                updateBaseClockECore, updateTurboClockECore, updateFreeMultiplier);
+            CpuTdp = await CpuTdp.UpdateTdp(updateTdp, updateBaseTdp, updateMaxTempCpu);
+            CpuRam = await CpuRam.UpdateRam(memoryTypeId, maxValueMemory, maxChannelMemory, clockMemory, supportEcc);
+            CpuBusAndController =
+                await CpuBusAndController.UpdateBusAndController(pciExpressControllerVersion, countLinesPciExpress);
+            CpuGpuCore = await CpuGpuCore.UpdateGpuCore(hasGpuCore, cpuModelGraphCore, cpuMaxClockGraphCore, cpuGraphBlocks, cpuShadingUnits);
+
+            return this;
+        }
+
     }
 }

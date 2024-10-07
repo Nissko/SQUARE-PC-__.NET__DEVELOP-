@@ -37,6 +37,15 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         [Range(0, 9999)]
         private int _maxTempCPU;
         public string MaxTempCPU => _maxTempCPU.ToString();
+
+        public async Task<CpuTdpInfoEntity> UpdateTdp(int? updateTdp, int? updateBaseTdp, int? updateMaxTempCpu)
+        {
+            _TDP = updateTdp ?? _TDP;
+            _baseTDP = updateBaseTdp ?? _baseTDP;
+            _maxTempCPU = updateMaxTempCpu ?? _maxTempCPU;
+
+            return this;
+        }
     }
 }
 

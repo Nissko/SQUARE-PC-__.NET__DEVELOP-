@@ -3,7 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using squarePC.Application.Application.Commands.Cpus;
 using squarePC.Application.Application.Queries.Cpus;
-using squarePC.Application.Application.Templates.CpusRequest;
+using squarePC.Application.Application.Templates.Request.Cpu;
+using squarePC.Domain.Aggregates.CpuAggregate;
 
 namespace squarePC.API.Controllers
 {
@@ -43,6 +44,36 @@ namespace squarePC.API.Controllers
             var result = await _mediator.Send(command);
             
             return result;
+        }
+
+        /// <summary>
+        /// Поиск процессора по ID
+        /// </summary>
+        [HttpGet("ReadCpuFromId")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<CpuEntity> ReadCpuFromId([FromQuery] Guid cpuId)
+        {
+            var command = new ReadCpuFromIdCommand(cpuId);
+            
+            var result = await _mediator.Send(command);
+            
+            return result;
+        }
+
+        /// <summary>
+        /// Изменения процессора по ID
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("UpdateCpuFromId")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> UpdateCpu([FromBody] UpdateCpuRequest request)
+        {
+            var command = new UpdateCpuCommand(request);
+
+            var result = await _mediator.Send(command);
+            
+            return new OkObjectResult(result);
         }
 
         #endregion

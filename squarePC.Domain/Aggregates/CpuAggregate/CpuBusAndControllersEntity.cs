@@ -24,5 +24,14 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// </summary>
         private int _countLinesPciExpress;
         public int CountLinesPciExpress => _countLinesPciExpress;
+
+        public async Task<CpuBusAndControllersEntity> UpdateBusAndController(string pciExpressControllerVersion,
+            int countLinesPciExpress)
+        {
+            _pciExpressControllerVersion = pciExpressControllerVersion;
+            _countLinesPciExpress = countLinesPciExpress;
+
+            return this;
+        }
     }
 }

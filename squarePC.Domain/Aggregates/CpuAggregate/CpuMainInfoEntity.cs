@@ -30,7 +30,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// Семейство процессора
         /// </summary>
         private Guid _familyCpuId;
-        public CpuFamilyEnum CpuFamily { get; private set; }
+        public virtual CpuFamilyEnum CpuFamily { get; private set; }
 
         /// <summary>
         /// Модель
@@ -78,6 +78,21 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             _name = $"Процессор {familyCpu} {modelCpu}";
 
             return _name;
+        }
+
+        public async Task<CpuMainInfoEntity> UpdateMainInfo(Guid? familyCpuId, string modelCpu, Guid? socketId,
+            string codeManufacture, DateTime? releaseDate, string warranty)
+
+        {
+            _familyCpuId = familyCpuId ?? _familyCpuId;
+            _model = modelCpu ?? _model;
+            _socketId = socketId ?? _socketId;
+            _codeManufacture = codeManufacture ?? _codeManufacture;
+            _releaseDate = releaseDate ?? _releaseDate;
+            _warranty = warranty ?? _warranty;
+            _name = CpuNameFunction(_familyCpuId, _model);
+
+            return this;
         }
     }
 }
