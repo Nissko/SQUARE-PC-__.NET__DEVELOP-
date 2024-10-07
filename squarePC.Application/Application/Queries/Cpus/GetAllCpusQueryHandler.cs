@@ -1,17 +1,16 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using squarePC.Application.Common.Interfaces;
+using squarePC.Application.Application.Interfaces.Cpu;
 using squarePC.Domain.Aggregates.CpuAggregate;
 
 namespace squarePC.Application.Application.Queries.Cpus
 {
     public class GetAllCpusQueryHandler : IRequestHandler<GetAllCpusQuery, IEnumerable<CpuEntity>>
     {
-        private readonly ISquarePcContext _context;
+        private readonly ICpuRepository _cpuRepository;
 
-        public GetAllCpusQueryHandler(ISquarePcContext context)
+        public GetAllCpusQueryHandler(ICpuRepository cpuRepository)
         {
-            _context = context?? throw new ArgumentNullException(nameof(context));
+            _cpuRepository = cpuRepository?? throw new ArgumentNullException(nameof(cpuRepository));
         }
         
         /// <summary>
@@ -19,19 +18,7 @@ namespace squarePC.Application.Application.Queries.Cpus
         /// </summary>
         public async Task<IEnumerable<CpuEntity>> Handle(GetAllCpusQuery request, CancellationToken cancellationToken)
         {
-            var cpus = await _context.Cpus
-                .Include(t => t.CpuMainInfo)
-                .ThenInclude(t => t.CpuFamily)
-                .Include(t => t.CpuMainInfo)
-                .ThenInclude(t => t.CpuSocket)
-                .Include(t => t.CpuCoreAndArchitecture)
-                .Include(t => t.CpuClocksAndOc)
-                .Include(t => t.CpuTdp)
-                .Include(t => t.CpuRam)
-                .ThenInclude(t => t.MemoryType)
-                .Include(t => t.CpuBusAndController)
-                .Include(t => t.CpuGpuCore)
-                .ToListAsync() ?? throw new ArgumentNullException("Не удалось найти доступные процессоры");
+            var cpus = await _cpuRepository.GetAllAsync();
             
             return cpus;
         }

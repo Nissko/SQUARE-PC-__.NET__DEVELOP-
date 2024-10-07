@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using squarePC.Application.Application.Interfaces.Cpu;
 using squarePC.Application.Common.Interfaces;
 using squarePC.Domain.Aggregates.CpuAggregate;
 
@@ -10,29 +11,19 @@ namespace squarePC.Application.Application.Commands.Cpus
     /// </summary>
     public class ReadCpuFromIdCommandHandler : IRequestHandler<ReadCpuFromIdCommand, CpuEntity>
     {
-        private readonly ISquarePcContext _context;
+        private readonly ICpuRepository _cpuRepository;
 
-        public ReadCpuFromIdCommandHandler(ISquarePcContext context)
+        public ReadCpuFromIdCommandHandler(ICpuRepository cpuRepository)
         {
-            _context = context?? throw new ArgumentNullException(nameof(context));
+            _cpuRepository = cpuRepository?? throw new ArgumentNullException(nameof(cpuRepository));
         }
 
         public async Task<CpuEntity> Handle(ReadCpuFromIdCommand request, CancellationToken cancellationToken)
         {
-            var cpuFind = await _context.Cpus
-                              .Include(t => t.CpuMainInfo)
-                              .ThenInclude(t => t.CpuFamily)
-                              .Include(t => t.CpuMainInfo)
-                              .ThenInclude(t => t.CpuSocket)
-                              .Include(t => t.CpuCoreAndArchitecture)
-                              .Include(t => t.CpuClocksAndOc)
-                              .Include(t => t.CpuTdp)
-                              .Include(t => t.CpuRam)
-                              .ThenInclude(t => t.MemoryType)
-                              .Include(t => t.CpuBusAndController)
-                              .Include(t => t.CpuGpuCore)
-                              .FirstOrDefaultAsync(cpu => cpu.Id == request.CpuId)
-                          ?? throw new ArgumentNullException("Не нашелся процессор");
+            var cpuFind = await _cpuRepository.GetByIdAsync(request.CpuId);
+
+            /*TODO: переписать исключение*/
+            if (cpuFind == null) throw new ArgumentNullException("Не найден процессор");
 
             return cpuFind;
         }

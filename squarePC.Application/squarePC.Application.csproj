@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Application\IntegrationEvents\" />
     <Folder Include="Application\Templates\Response\" />
-    <Folder Include="DTO\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
 

@@ -30,7 +30,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// Семейство процессора
         /// </summary>
         private Guid _familyCpuId;
-        public virtual CpuFamilyEnum CpuFamily { get; private set; }
+        public CpuFamilyEnum CpuFamily { get; private set; }
 
         /// <summary>
         /// Модель
