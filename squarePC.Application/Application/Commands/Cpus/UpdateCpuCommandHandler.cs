@@ -1,6 +1,7 @@
 using MediatR;
 using squarePC.Application.Application.Interfaces.Cpu;
 using squarePC.Application.DTO.Cpu;
+using squarePC.Application.Exceptions.CpusApplicationException;
 
 namespace squarePC.Application.Application.Commands.Cpus
 {
@@ -15,6 +16,9 @@ namespace squarePC.Application.Application.Commands.Cpus
 
         public async Task<Unit> Handle(UpdateCpuCommand request, CancellationToken cancellationToken)
         {
+            var cpu = await _cpuRepository.GetByIdAsync(request.UpdateCpu.cpuId) ??
+                                    throw new CpuNullException(request.UpdateCpu.cpuId);
+            
             var updateCpuRequestDto = await ConstructCpuDTO(request);
             
             await _cpuRepository.UpdateCpuDetailsAsync(updateCpuRequestDto, cancellationToken);
@@ -45,30 +49,30 @@ namespace squarePC.Application.Application.Commands.Cpus
                     CoreName = request.UpdateCpu.coreAndArchitecture.coreName,
                     ECore = request.UpdateCpu.coreAndArchitecture.eCore,
                     PCore = request.UpdateCpu.coreAndArchitecture.pCore,
-                    TechnoProcess = request.UpdateCpu.coreAndArchitecture.technoProcess,
-                    Virtualization = request.UpdateCpu.coreAndArchitecture.virtualization
+                    TechnoProcess = request.UpdateCpu.coreAndArchitecture.technoProcess.ToString(),
+                    Virtualization = request.UpdateCpu.coreAndArchitecture.virtualization.ToString()
                 },
                 ClocksAndOc = new CpuClocksAndOcDto
                 {
-                    BaseClock = request.UpdateCpu.clocksAndOc.baseClock,
-                    TurboClock = request.UpdateCpu.clocksAndOc.turboClock,
-                    BaseClockECore = request.UpdateCpu.clocksAndOc.baseClockECore,
-                    TurboClockECore = request.UpdateCpu.clocksAndOc.turboClockECore,
-                    FreeMultiplier = request.UpdateCpu.clocksAndOc.freeMultiplier
+                    BaseClock = request.UpdateCpu.clocksAndOc.baseClock.ToString(),
+                    TurboClock = request.UpdateCpu.clocksAndOc.turboClock.ToString(),
+                    BaseClockECore = request.UpdateCpu.clocksAndOc.baseClockECore.ToString(),
+                    TurboClockECore = request.UpdateCpu.clocksAndOc.turboClockECore.ToString(),
+                    FreeMultiplier = request.UpdateCpu.clocksAndOc.freeMultiplier.ToString()
                 },
                 Tdp = new CpuTdpDto
                 {
-                    Tdp = request.UpdateCpu.tdp.Tdp,
-                    BaseTdp = request.UpdateCpu.tdp.BaseTdp,
-                    MaxTempCpu = request.UpdateCpu.tdp.MaxTempCpu
+                    Tdp = request.UpdateCpu.tdp.Tdp.ToString(),
+                    BaseTdp = request.UpdateCpu.tdp.BaseTdp.ToString(),
+                    MaxTempCpu = request.UpdateCpu.tdp.MaxTempCpu.ToString()
                 },
                 Ram = new CpuRamDto
                 {
                     MemoryTypeId = request.UpdateCpu.ram.MemoryTypeId,
-                    MaxValueMemory = request.UpdateCpu.ram.MaxValueMemory,
-                    MaxChannelMemory = request.UpdateCpu.ram.MaxChannelMemory,
-                    ClockMemory = request.UpdateCpu.ram.ClockMemory,
-                    SupportEcc = request.UpdateCpu.ram.SupportEcc
+                    MaxValueMemory = request.UpdateCpu.ram.MaxValueMemory.ToString(),
+                    MaxChannelMemory = request.UpdateCpu.ram.MaxChannelMemory.ToString(),
+                    ClockMemory = request.UpdateCpu.ram.ClockMemory.ToString(),
+                    SupportEcc = request.UpdateCpu.ram.SupportEcc.ToString()
                 },
                 BusAndController = new CpuBusAndControllerDto
                 {
@@ -77,11 +81,11 @@ namespace squarePC.Application.Application.Commands.Cpus
                 },
                 GpuCore = new CpuGpuCoreDto
                 {
-                    HasGpuCore = request.UpdateCpu.gpuCore.hasGpuCore,
+                    HasGpuCore = request.UpdateCpu.gpuCore.hasGpuCore.ToString(),
                     CpuModelGraphCore = request.UpdateCpu.gpuCore.cpuModelGraphCore,
-                    CpuMaxClockGraphCore = request.UpdateCpu.gpuCore.cpuMaxClockGraphCore,
-                    CpuGraphBlocks = request.UpdateCpu.gpuCore.cpuGraphBlocks,
-                    CpuShadingUnits = request.UpdateCpu.gpuCore.cpuShadingUnits
+                    CpuMaxClockGraphCore = request.UpdateCpu.gpuCore.cpuMaxClockGraphCore.ToString(),
+                    CpuGraphBlocks = request.UpdateCpu.gpuCore.cpuGraphBlocks.ToString(),
+                    CpuShadingUnits = request.UpdateCpu.gpuCore.cpuShadingUnits.ToString()
                 }
             };
             

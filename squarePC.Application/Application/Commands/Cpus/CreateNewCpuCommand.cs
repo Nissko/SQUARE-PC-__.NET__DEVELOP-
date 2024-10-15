@@ -3,7 +3,7 @@ using squarePC.Application.Application.Templates.Request.Cpu;
 
 namespace squarePC.Application.Application.Commands.Cpus
 {
-    public class CreateNewCpuCommand : IRequest<Unit>
+    public class CreateNewCpuCommand : IRequest
     {
         public CreateNewCpuCommand(CreateCpuRequest createCpuRequest)
         {

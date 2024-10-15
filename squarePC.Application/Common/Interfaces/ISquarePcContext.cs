@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using squarePC.Domain.Aggregates.ConfigurationAggregate;
 using squarePC.Domain.Aggregates.CpuAggregate;
+using squarePC.Domain.Aggregates.Image;
 using squarePC.Domain.Enums.CpuEnums;
 
 namespace squarePC.Application.Common.Interfaces
@@ -20,11 +20,14 @@ namespace squarePC.Application.Common.Interfaces
         public DbSet<CpuRamInfoEntity> CpuRamInfos { get; set; }
         public DbSet<CpuBusAndControllersEntity> CpuBusAndControllers { get; set; }
         public DbSet<CpuGpuCoreInfoEntity> CpuGpuCoreInfos { get; set; }
+        public DbSet<CpuImageEntity> CpuImages { get; set; }
         public DbSet<CpuFamilyEnum> CpuFamilies { get; set; }
         public DbSet<CpuMemoryTypeEnum> CpuMemoryTypes { get; set; }
         public DbSet<CpuSocketEnum> CpuSockets { get; set; }
 
         #endregion
+        
+        public DbSet<ImageProductsEntity> ImageProducts { get; set; }
 
         void Migrate();
         

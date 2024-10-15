@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using squarePC.Application.Common.Interfaces;
 using squarePC.Domain.Aggregates.CpuAggregate;
+using squarePC.Domain.Aggregates.Image;
 using squarePC.Domain.Enums.CpuEnums;
 using squarePC.Infrastructure.Configurations.Cpu;
+using squarePC.Infrastructure.Configurations.Image.ProductImage;
 
 namespace squarePC.Infrastructure
 {
@@ -24,13 +26,16 @@ namespace squarePC.Infrastructure
         public DbSet<CpuRamInfoEntity> CpuRamInfos { get; set; }
         public DbSet<CpuBusAndControllersEntity> CpuBusAndControllers { get; set; }
         public DbSet<CpuGpuCoreInfoEntity> CpuGpuCoreInfos { get; set; }
+        public DbSet<CpuImageEntity> CpuImages { get; set; }
         public DbSet<CpuFamilyEnum> CpuFamilies { get; set; }
         public DbSet<CpuMemoryTypeEnum> CpuMemoryTypes { get; set; }
         public DbSet<CpuSocketEnum> CpuSockets { get; set; }
+        
 
         #endregion
         
-
+        public DbSet<ImageProductsEntity> ImageProducts { get; set; }
+        
         public void Migrate()
         {
             Database.Migrate();
@@ -49,6 +54,9 @@ namespace squarePC.Infrastructure
             modelBuilder.ApplyConfiguration(new CpuFamilyConfiguration());
             modelBuilder.ApplyConfiguration(new CpuMemoryTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CpuSocketConfiguration());
+            modelBuilder.ApplyConfiguration(new CpuImageConfiguration());
+
+            modelBuilder.ApplyConfiguration(new ImageProductConfiguration());
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SquarePcContext).Assembly);
         }
@@ -60,7 +68,8 @@ namespace squarePC.Infrastructure
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;User Id=postgres;Password=0000;Port=5432;Database=squarePcDB;");
+            optionsBuilder.UseNpgsql("Server=localhost;User Id=postgres;Password=0000;Port=5432;Database=squarePcDB;")
+                .UseLazyLoadingProxies();
         }
         
         protected static DbContextOptions<T> ChangeOptionsType<T>(DbContextOptions options) where T : DbContext

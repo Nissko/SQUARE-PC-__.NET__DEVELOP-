@@ -1,12 +1,12 @@
 using System.Net.Mime;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using squarePC.Application.Application.Commands.Cpus;
 using squarePC.Application.Application.Queries.Cpus;
 using squarePC.Application.Application.Templates.Request.Cpu;
-using squarePC.Domain.Aggregates.CpuAggregate;
 
-namespace squarePC.API.Controllers
+namespace squarePC.API.Controllers.Cpu
 {
     [ApiController]
     [Route("[controller]")]
@@ -28,7 +28,7 @@ namespace squarePC.API.Controllers
         {
             var result = await _mediator.Send(request);
 
-            return new OkObjectResult(result);
+            return new JsonResult(result);
         }
 
         #region CRUD
@@ -38,12 +38,12 @@ namespace squarePC.API.Controllers
         /// </summary>
         [HttpPost("CreateCpu")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<Unit> CreateCpu([FromBody] CreateCpuRequest request)
+        public async Task<IActionResult> CreateCpu([FromBody] CreateCpuRequest request)
         {
             var command = new CreateNewCpuCommand(request);
             var result = await _mediator.Send(command);
             
-            return result;
+            return Ok(result);
         }
 
         /// <summary>
@@ -51,20 +51,18 @@ namespace squarePC.API.Controllers
         /// </summary>
         [HttpGet("ReadCpuFromId")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<CpuEntity> ReadCpuFromId([FromQuery] Guid cpuId)
+        public async Task<IActionResult> ReadCpuFromId([FromQuery] Guid cpuId)
         {
             var command = new ReadCpuFromIdCommand(cpuId);
             
             var result = await _mediator.Send(command);
             
-            return result;
+            return new JsonResult(result);
         }
 
         /// <summary>
-        /// Изменения процессора по ID
+        /// Изменения процессора по Id
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
         [HttpPost("UpdateCpuFromId")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> UpdateCpu([FromBody] UpdateCpuRequest request)
@@ -73,10 +71,23 @@ namespace squarePC.API.Controllers
 
             var result = await _mediator.Send(command);
             
-            return new OkObjectResult(result);
+            return new JsonResult(result);
+        }
+
+        /// <summary>
+        /// Удаление процессора по Id
+        /// </summary>
+        [HttpGet("DeleteCpuFromId")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> DeleteCpu([FromQuery] Guid cpuId)
+        {
+            var command = new DeleteCpuCommand(cpuId);
+
+            var result = await _mediator.Send(command);
+
+            return new JsonResult(result);
         }
 
         #endregion
-
     }
 }

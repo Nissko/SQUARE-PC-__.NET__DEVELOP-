@@ -13,6 +13,6 @@ namespace squarePC.Application.Application.Commands.Cpus
         /// <summary>
         /// Запрос изменяемого процессора
         /// </summary>
-        public UpdateCpuRequest UpdateCpu { get; set; }
+        public UpdateCpuRequest UpdateCpu { get; private set; }
     }
 }

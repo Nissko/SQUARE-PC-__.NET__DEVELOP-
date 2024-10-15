@@ -16,10 +16,8 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             CpuClocksAndOcEntity cpuClocksAndOc, CpuTdpInfoEntity cpuTdp, CpuRamInfoEntity cpuRam,
             CpuBusAndControllersEntity cpuBusAndController, CpuGpuCoreInfoEntity cpuGpuCore)
         {
-            ArgumentOutOfRangeException.ThrowIfNegative(cpuCount);
-
-            _cpuPrice = cpuPrice;
-            _cpuCount = cpuCount;
+            _cpuPrice = cpuPrice > 0 ? cpuPrice : 0;
+            _cpuCount = cpuCount > 0 ? cpuCount : 0;
             CpuMainInfo = cpuMainInfo;
             CpuCoreAndArchitecture = cpuCoreAndArchitecture;
             CpuClocksAndOc = cpuClocksAndOc;
@@ -51,44 +49,46 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// <summary>
         /// Общие параметры
         /// </summary>
-        public CpuMainInfoEntity CpuMainInfo { get; private set; }
+        public virtual CpuMainInfoEntity CpuMainInfo { get; private set; }
         private Guid _cpuMainInfoId;
         
         /// <summary>
         /// Ядро и архитектура
         /// </summary>
-        public CpuCoreAndArchitectureEntity CpuCoreAndArchitecture { get; private set; }
+        public virtual CpuCoreAndArchitectureEntity CpuCoreAndArchitecture { get; private set; }
         private Guid _cpuCoreAndArchitectureId;
         
         /// <summary>
         /// Частота и возможность разгона
         /// </summary>
-        public CpuClocksAndOcEntity CpuClocksAndOc { get; private set; }
+        public virtual CpuClocksAndOcEntity CpuClocksAndOc { get; private set; }
         private Guid _cpuClocksAndOcId;
         
         /// <summary>
         /// Тепловые характеристики
         /// </summary>
-        public CpuTdpInfoEntity CpuTdp { get; private set; }
+        public virtual CpuTdpInfoEntity CpuTdp { get; private set; }
         private Guid _cpuTdpId;
         
         /// <summary>
         /// Параметры ОЗУ
         /// </summary>
-        public CpuRamInfoEntity CpuRam { get; private set; }
+        public virtual CpuRamInfoEntity CpuRam { get; private set; }
         private Guid _cpuRamId;
         
         /// <summary>
         /// Шина и контроллер
         /// </summary>
-        public CpuBusAndControllersEntity CpuBusAndController { get; private set; }
+        public virtual CpuBusAndControllersEntity CpuBusAndController { get; private set; }
         private Guid _cpuBusAndControllerId;
         
         /// <summary>
         /// Графическое ядро
         /// </summary>
-        public CpuGpuCoreInfoEntity CpuGpuCore { get; private set; }
+        public virtual CpuGpuCoreInfoEntity CpuGpuCore { get; private set; }
         private Guid _cpuGpuCoreId;
+        
+        public virtual ICollection<CpuImageEntity> CpuImages { get; private set; }
 
         public async Task<CpuEntity> UpdateCpu(Guid cpuId, decimal? updatePrice, int? updateCount, Guid? familyCpuId,
             string modelCpu, Guid? socketId, string codeManufacture, DateTime? releaseDate, string warranty,
@@ -121,7 +121,8 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             CpuRam = await CpuRam.UpdateRam(memoryTypeId, maxValueMemory, maxChannelMemory, clockMemory, supportEcc);
             CpuBusAndController =
                 await CpuBusAndController.UpdateBusAndController(pciExpressControllerVersion, countLinesPciExpress);
-            CpuGpuCore = await CpuGpuCore.UpdateGpuCore(hasGpuCore, cpuModelGraphCore, cpuMaxClockGraphCore, cpuGraphBlocks, cpuShadingUnits);
+            CpuGpuCore = await CpuGpuCore.UpdateGpuCore(hasGpuCore, cpuModelGraphCore, cpuMaxClockGraphCore,
+                cpuGraphBlocks, cpuShadingUnits);
 
             return this;
         }

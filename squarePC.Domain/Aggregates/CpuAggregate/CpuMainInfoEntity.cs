@@ -30,7 +30,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// Семейство процессора
         /// </summary>
         private Guid _familyCpuId;
-        public CpuFamilyEnum CpuFamily { get; private set; }
+        public virtual CpuFamilyEnum CpuFamily { get; private set; }
 
         /// <summary>
         /// Модель
@@ -42,13 +42,13 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// Сокет
         /// </summary>
         private Guid _socketId;
-        public CpuSocketEnum CpuSocket { get; private set; }
+        public virtual CpuSocketEnum CpuSocket { get; private set; }
 
         /// <summary>
         /// Код производителя
         /// </summary>
         private string _codeManufacture;
-        private string CpuManufacture => _codeManufacture;
+        public string CpuManufacture => _codeManufacture;
 
         /// <summary>
         /// Дата выхода

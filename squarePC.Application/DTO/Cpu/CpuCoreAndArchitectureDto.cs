@@ -6,8 +6,8 @@ namespace squarePC.Application.DTO.Cpu
         public int? ECore { get; set; } 
         public string CacheL2 { get; set; } 
         public string CacheL3 { get; set; }
-        public int? TechnoProcess { get; set; }
+        public string TechnoProcess { get; set; }
         public string CoreName { get; set; }
-        public bool? Virtualization { get; set; }
+        public string Virtualization { get; set; }
     }
 }

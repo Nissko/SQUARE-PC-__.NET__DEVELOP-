@@ -24,7 +24,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// Тип поддерживаемой памяти
         /// </summary>
         private Guid _memoryTypeId;
-        public CpuMemoryTypeEnum MemoryType { get; private set; }
+        public virtual CpuMemoryTypeEnum MemoryType { get; private set; }
 
         /// <summary>
         /// Максимально поддерживаемый объем памяти

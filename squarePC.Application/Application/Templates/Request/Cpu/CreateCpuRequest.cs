@@ -2,7 +2,8 @@ using squarePC.Application.Application.Models.Cpus.Create;
 
 namespace squarePC.Application.Application.Templates.Request.Cpu
 {
-    public record CreateCpuRequest(
+    public record CreateCpuRequest
+    (
         int count,
         decimal price,
         CpuMainInfoItem mainInfo,

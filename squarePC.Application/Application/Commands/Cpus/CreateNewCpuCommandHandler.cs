@@ -1,87 +1,91 @@
 using MediatR;
-using squarePC.Application.Application.Templates.Request.Cpu;
+using squarePC.Application.Application.Interfaces.Cpu;
 using squarePC.Application.Common.Interfaces;
-using squarePC.Domain.Aggregates.CpuAggregate;
+using squarePC.Application.DTO.Cpu;
 
 namespace squarePC.Application.Application.Commands.Cpus
 {
-    public class CreateNewCpuCommandHandler : IRequestHandler<CreateNewCpuCommand, Unit>
+    public class CreateNewCpuCommandHandler : IRequestHandler<CreateNewCpuCommand>
     {
-        private readonly ISquarePcContext _context;
+        private readonly ICpuRepository _repository;
 
-        public CreateNewCpuCommandHandler(ISquarePcContext context)
+        public CreateNewCpuCommandHandler(ICpuRepository repository)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task<Unit> Handle(CreateNewCpuCommand request, CancellationToken cancellationToken)
         {
-            var cpuRequest = request.CreateCpu;
-            
-            var newCpu = await AddNewCpu(cpuRequest);
-            
-            await _context.Cpus.AddAsync(newCpu, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            var cpuDto = await ConstructCpuDTO(request);
 
+            await _repository.CreateCpuAsync(cpuDto, cancellationToken);
+            
             return Unit.Value;
         }
 
-        private async Task<CpuEntity> AddNewCpu(CreateCpuRequest cpuRequest)
+        private static async Task<CpuDto> ConstructCpuDTO(CreateNewCpuCommand request)
         {
-            var cpuEntity = new CpuEntity(
-                cpuPrice: cpuRequest.price,
-                cpuCount: cpuRequest.count,
-                cpuMainInfo: new CpuMainInfoEntity(
-                    familyCpuId: cpuRequest.mainInfo.FamilyCpuId,
-                    model: cpuRequest.mainInfo.Model,
-                    socketId: cpuRequest.mainInfo.SocketId,
-                    codeManufacture: cpuRequest.mainInfo.CodeManufacture,
-                    releaseDate: cpuRequest.mainInfo.ReleaseDate,
-                    warranty: cpuRequest.mainInfo.Warranty
-                ),
-                cpuCoreAndArchitecture: new CpuCoreAndArchitectureEntity(
-                    pCores: cpuRequest.coreAndArchitecture.pCore,
-                    eCores: cpuRequest.coreAndArchitecture.eCore,
-                    cacheL2: cpuRequest.coreAndArchitecture.cacheL2,
-                    cacheL3: cpuRequest.coreAndArchitecture.cacheL3,
-                    technoProcess: cpuRequest.coreAndArchitecture.technoProcess,
-                    coreName: cpuRequest.coreAndArchitecture.coreName,
-                    virtualization: cpuRequest.coreAndArchitecture.virtualization
-                ),
-                cpuClocksAndOc: new CpuClocksAndOcEntity(
-                    baseClock: cpuRequest.clocksAndOc.baseClock,
-                    turboClock: cpuRequest.clocksAndOc.turboClock,
-                    baseClockECore: cpuRequest.clocksAndOc.baseClockECore,
-                    turboClockECore: cpuRequest.clocksAndOc.turboClockECore,
-                    freeMultiplier: cpuRequest.clocksAndOc.freeMultiplier
-                ),
-                cpuTdp: new CpuTdpInfoEntity(
-                    tdp: cpuRequest.tdp.Tdp,
-                    baseTdp: cpuRequest.tdp.BaseTdp,
-                    maxTempCpu: cpuRequest.tdp.MaxTempCpu
-                ),
-                cpuRam: new CpuRamInfoEntity(
-                    memoryTypeId: cpuRequest.ram.MemoryTypeId,
-                    maxValueMemory: cpuRequest.ram.MaxValueMemory,
-                    maxChannelMemory: cpuRequest.ram.MaxChannelMemory,
-                    clockMemory: cpuRequest.ram.ClockMemory,
-                    supportEcc: cpuRequest.ram.SupportEcc
-                ),
-                cpuBusAndController: new CpuBusAndControllersEntity(
-                    pciExpressControllerVersion: cpuRequest.busAndController.PciExpressControllerVersion,
-                    countLinesPciExpress: cpuRequest.busAndController.CountLinesPciExpress
-                ),
-                cpuGpuCore: new CpuGpuCoreInfoEntity(
-                    hasGpuCore: cpuRequest.gpuCore.hasGpuCore,
-                    cpuModelGraphCore: cpuRequest.gpuCore.cpuModelGraphCore,
-                    cpuMaxClockGraphCore: cpuRequest.gpuCore.cpuMaxClockGraphCore,
-                    cpuGraphBlocks: cpuRequest.gpuCore.cpuGraphBlocks,
-                    cpuShadingUnits: cpuRequest.gpuCore.cpuShadingUnits
-                )
-            );
-
-
-            return cpuEntity;
+            var dto = new CpuDto()
+            {
+                Price = request.CreateCpu.price,
+                Count = request.CreateCpu.count,
+                MainInfo = new CpuMainInfoDto()
+                {
+                    FamilyCpuId = request.CreateCpu.mainInfo.FamilyCpuId,
+                    Model = request.CreateCpu.mainInfo.Model,
+                    SocketId = request.CreateCpu.mainInfo.SocketId,
+                    ReleaseDate = request.CreateCpu.mainInfo.ReleaseDate,
+                    Warranty = request.CreateCpu.mainInfo.Warranty,
+                    CodeManufacture = request.CreateCpu.mainInfo.CodeManufacture
+                },
+                CoreAndArchitecture = new CpuCoreAndArchitectureDto()
+                {
+                    CacheL2 = request.CreateCpu.coreAndArchitecture.cacheL2,
+                    CacheL3 = request.CreateCpu.coreAndArchitecture.cacheL3,
+                    CoreName = request.CreateCpu.coreAndArchitecture.coreName,
+                    ECore = request.CreateCpu.coreAndArchitecture.eCore,
+                    PCore = request.CreateCpu.coreAndArchitecture.pCore,
+                    TechnoProcess = request.CreateCpu.coreAndArchitecture.technoProcess.ToString(),
+                    Virtualization = request.CreateCpu.coreAndArchitecture.virtualization.ToString()
+                },
+                ClocksAndOc = new CpuClocksAndOcDto
+                {
+                    BaseClock = request.CreateCpu.clocksAndOc.baseClock.ToString(),
+                    TurboClock = request.CreateCpu.clocksAndOc.turboClock.ToString(),
+                    BaseClockECore = request.CreateCpu.clocksAndOc.baseClockECore.ToString(),
+                    TurboClockECore = request.CreateCpu.clocksAndOc.turboClockECore.ToString(),
+                    FreeMultiplier = request.CreateCpu.clocksAndOc.freeMultiplier.ToString()
+                },
+                Tdp = new CpuTdpDto
+                {
+                    Tdp = request.CreateCpu.tdp.Tdp.ToString(),
+                    BaseTdp = request.CreateCpu.tdp.BaseTdp.ToString(),
+                    MaxTempCpu = request.CreateCpu.tdp.MaxTempCpu.ToString()
+                },
+                Ram = new CpuRamDto
+                {
+                    MemoryTypeId = request.CreateCpu.ram.MemoryTypeId,
+                    MaxValueMemory = request.CreateCpu.ram.MaxValueMemory.ToString(),
+                    MaxChannelMemory = request.CreateCpu.ram.MaxChannelMemory.ToString(),
+                    ClockMemory = request.CreateCpu.ram.ClockMemory.ToString(),
+                    SupportEcc = request.CreateCpu.ram.SupportEcc.ToString()
+                },
+                BusAndController = new CpuBusAndControllerDto
+                {
+                    PciExpressControllerVersion = request.CreateCpu.busAndController.PciExpressControllerVersion,
+                    CountLinesPciExpress = request.CreateCpu.busAndController.CountLinesPciExpress
+                },
+                GpuCore = new CpuGpuCoreDto
+                {
+                    HasGpuCore = request.CreateCpu.gpuCore.hasGpuCore.ToString(),
+                    CpuModelGraphCore = request.CreateCpu.gpuCore.cpuModelGraphCore,
+                    CpuMaxClockGraphCore = request.CreateCpu.gpuCore.cpuMaxClockGraphCore.ToString(),
+                    CpuGraphBlocks = request.CreateCpu.gpuCore.cpuGraphBlocks.ToString(),
+                    CpuShadingUnits = request.CreateCpu.gpuCore.cpuShadingUnits.ToString()
+                }
+            };
+            
+            return dto;
         }
     }
 }

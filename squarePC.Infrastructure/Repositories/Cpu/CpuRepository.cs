@@ -17,19 +17,7 @@ namespace squarePC.Infrastructure.Repositories.Cpu
         
         public async Task<IEnumerable<CpuEntity>> GetAllAsync()
         {
-            return await _context.Cpus
-                .Include(t => t.CpuMainInfo)
-                    .ThenInclude(t => t.CpuFamily)
-                .Include(t => t.CpuMainInfo)
-                    .ThenInclude(t => t.CpuSocket)
-                .Include(t => t.CpuCoreAndArchitecture)
-                .Include(t => t.CpuClocksAndOc)
-                .Include(t => t.CpuTdp)
-                .Include(t => t.CpuRam)
-                    .ThenInclude(t => t.MemoryType)
-                .Include(t => t.CpuBusAndController)
-                .Include(t => t.CpuGpuCore)
-                .ToListAsync();
+            return await _context.Cpus.ToListAsync();
         }
 
         public async Task AddAsync(CpuEntity cpu, CancellationToken cancellationToken)
@@ -38,13 +26,68 @@ namespace squarePC.Infrastructure.Repositories.Cpu
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<CpuEntity> UpdateAsync(CpuEntity cpu, CancellationToken cancellationToken)
+        public async Task CreateCpuAsync(CpuDto cpuDto, CancellationToken cancellationToken)
+        {
+            var cpu = new CpuEntity(
+                cpuPrice: cpuDto.Price.Value,
+                cpuCount: cpuDto.Count.Value,
+                cpuMainInfo: new CpuMainInfoEntity(
+                    familyCpuId: cpuDto.MainInfo.FamilyCpuId,
+                    model: cpuDto.MainInfo.Model,
+                    socketId: cpuDto.MainInfo.SocketId,
+                    codeManufacture: cpuDto.MainInfo.CodeManufacture,
+                    releaseDate: cpuDto.MainInfo.ReleaseDate.Value,
+                    warranty: cpuDto.MainInfo.Warranty
+                ),
+                cpuCoreAndArchitecture: new CpuCoreAndArchitectureEntity(
+                    pCores: cpuDto.CoreAndArchitecture.PCore.Value,
+                    eCores: cpuDto.CoreAndArchitecture.ECore.Value,
+                    cacheL2: cpuDto.CoreAndArchitecture.CacheL2,
+                    cacheL3: cpuDto.CoreAndArchitecture.CacheL3,
+                    technoProcess: int.Parse(cpuDto.CoreAndArchitecture.TechnoProcess),
+                    coreName: cpuDto.CoreAndArchitecture.CoreName,
+                    virtualization: bool.Parse(cpuDto.CoreAndArchitecture.Virtualization)
+                ),
+                cpuClocksAndOc: new CpuClocksAndOcEntity(
+                    baseClock: decimal.Parse(cpuDto.ClocksAndOc.BaseClock),
+                    turboClock: decimal.Parse(cpuDto.ClocksAndOc.TurboClock),
+                    baseClockECore: decimal.Parse(cpuDto.ClocksAndOc.BaseClockECore),
+                    turboClockECore: decimal.Parse(cpuDto.ClocksAndOc.TurboClockECore),
+                    freeMultiplier: bool.Parse(cpuDto.ClocksAndOc.FreeMultiplier)
+                ),
+                cpuTdp: new CpuTdpInfoEntity(
+                    tdp: int.Parse(cpuDto.Tdp.Tdp),
+                    baseTdp: int.Parse(cpuDto.Tdp.BaseTdp),
+                    maxTempCpu: int.Parse(cpuDto.Tdp.MaxTempCpu)
+                ),
+                cpuRam: new CpuRamInfoEntity(
+                    memoryTypeId: cpuDto.Ram.MemoryTypeId,
+                    maxValueMemory: int.Parse(cpuDto.Ram.MaxValueMemory),
+                    maxChannelMemory: int.Parse(cpuDto.Ram.MaxChannelMemory),
+                    clockMemory: int.Parse(cpuDto.Ram.ClockMemory),
+                    supportEcc: bool.Parse(cpuDto.Ram.SupportEcc)
+                ),
+                cpuBusAndController: new CpuBusAndControllersEntity(
+                    pciExpressControllerVersion: cpuDto.BusAndController.PciExpressControllerVersion,
+                    countLinesPciExpress: cpuDto.BusAndController.CountLinesPciExpress
+                ),
+                cpuGpuCore: new CpuGpuCoreInfoEntity(
+                    hasGpuCore: bool.Parse(cpuDto.GpuCore.HasGpuCore),
+                    cpuModelGraphCore: cpuDto.GpuCore.CpuModelGraphCore,
+                    cpuMaxClockGraphCore: int.Parse(cpuDto.GpuCore.CpuMaxClockGraphCore),
+                    cpuGraphBlocks: int.Parse(cpuDto.GpuCore.CpuGraphBlocks),
+                    cpuShadingUnits: int.Parse(cpuDto.GpuCore.CpuShadingUnits)
+                ));
+
+            await AddAsync(cpu, CancellationToken.None);
+        }
+        
+        public async Task UpdateAsync(CpuEntity cpu, CancellationToken cancellationToken)
         {
             _context.Cpus.Update(cpu);
             await _context.SaveChangesAsync(cancellationToken);
-            return cpu;
         }
-
+        
         public async Task UpdateCpuDetailsAsync(CpuDto updateRequest, CancellationToken cancellationToken)
         {
             var existingCpu = await GetByIdAsync(updateRequest.CpuId);
@@ -66,60 +109,63 @@ namespace squarePC.Infrastructure.Repositories.Cpu
                 updateRequest.CoreAndArchitecture.ECore,
                 updateRequest.CoreAndArchitecture.CacheL2,
                 updateRequest.CoreAndArchitecture.CacheL3,
-                updateRequest.CoreAndArchitecture.TechnoProcess,
+                int.Parse(updateRequest.CoreAndArchitecture.TechnoProcess),
                 updateRequest.CoreAndArchitecture.CoreName,
-                updateRequest.CoreAndArchitecture.Virtualization,
-                updateRequest.ClocksAndOc.BaseClock,
-                updateRequest.ClocksAndOc.TurboClock,
-                updateRequest.ClocksAndOc.BaseClockECore,
-                updateRequest.ClocksAndOc.TurboClockECore,
-                updateRequest.ClocksAndOc.FreeMultiplier,
-                updateRequest.Tdp.Tdp,
-                updateRequest.Tdp.BaseTdp,
-                updateRequest.Tdp.MaxTempCpu,
+                bool.Parse(updateRequest.CoreAndArchitecture.Virtualization),
+                decimal.Parse(updateRequest.ClocksAndOc.BaseClock),
+                decimal.Parse(updateRequest.ClocksAndOc.TurboClock),
+                decimal.Parse(updateRequest.ClocksAndOc.BaseClockECore),
+                decimal.Parse(updateRequest.ClocksAndOc.TurboClockECore),
+                bool.Parse(updateRequest.ClocksAndOc.FreeMultiplier),
+                int.Parse(updateRequest.Tdp.Tdp),
+                int.Parse(updateRequest.Tdp.BaseTdp),
+                int.Parse(updateRequest.Tdp.MaxTempCpu),
                 updateRequest.Ram.MemoryTypeId,
-                updateRequest.Ram.MaxValueMemory,
-                updateRequest.Ram.MaxChannelMemory,
-                updateRequest.Ram.ClockMemory,
-                updateRequest.Ram.SupportEcc,
+                int.Parse(updateRequest.Ram.MaxValueMemory),
+                int.Parse(updateRequest.Ram.MaxChannelMemory),
+                int.Parse(updateRequest.Ram.ClockMemory),
+                bool.Parse(updateRequest.Ram.SupportEcc),
                 updateRequest.BusAndController.PciExpressControllerVersion,
                 updateRequest.BusAndController.CountLinesPciExpress,
-                updateRequest.GpuCore.HasGpuCore,
+                bool.Parse(updateRequest.GpuCore.HasGpuCore),
                 updateRequest.GpuCore.CpuModelGraphCore,
-                updateRequest.GpuCore.CpuMaxClockGraphCore,
-                updateRequest.GpuCore.CpuGraphBlocks,
-                updateRequest.GpuCore.CpuShadingUnits
+                int.Parse(updateRequest.GpuCore.CpuMaxClockGraphCore),
+                int.Parse(updateRequest.GpuCore.CpuGraphBlocks),
+                int.Parse(updateRequest.GpuCore.CpuShadingUnits)
             );
 
             await UpdateAsync(existingCpu, cancellationToken);
         }
 
-
-        public async Task DeleteAsync(Guid cpuId, CancellationToken cancellationToken)
+        public async Task DeleteCpuIdAsync(Guid cpuId, CancellationToken cancellationToken)
         {
-            var cpu = await _context.Cpus.FindAsync(cpuId);
-            if (cpu != null)
-            {
-                _context.Cpus.Remove(cpu);
-                await _context.SaveChangesAsync(cancellationToken);
-            }
+            var cpu = await _context.Cpus
+                .Include(c => c.CpuMainInfo)
+                .Include(c => c.CpuCoreAndArchitecture)
+                .Include(c => c.CpuClocksAndOc)
+                .Include(c => c.CpuTdp)
+                .Include(c => c.CpuRam)
+                .Include(c => c.CpuBusAndController)
+                .Include(c => c.CpuGpuCore)
+                .FirstOrDefaultAsync(c => c.Id == cpuId, cancellationToken);
+            
+            _context.Cpus.Remove(cpu);
+            
+            _context.CpuMainInfos.Remove(cpu.CpuMainInfo);
+            _context.CpuCoreAndArchitectures.Remove(cpu.CpuCoreAndArchitecture);
+            _context.CpuClocksAndOcs.Remove(cpu.CpuClocksAndOc);
+            _context.CpuTdpInfos.Remove(cpu.CpuTdp);
+            _context.CpuRamInfos.Remove(cpu.CpuRam);
+            _context.CpuBusAndControllers.Remove(cpu.CpuBusAndController);
+            _context.CpuGpuCoreInfos.Remove(cpu.CpuGpuCore);
+            
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<CpuEntity> GetByIdAsync(Guid cpuId)
         {
-            return await _context.Cpus
-                .Include(t => t.CpuMainInfo)
-                .ThenInclude(t => t.CpuFamily)
-                .Include(t => t.CpuMainInfo)
-                .ThenInclude(t => t.CpuSocket)
-                .Include(t => t.CpuCoreAndArchitecture)
-                .Include(t => t.CpuClocksAndOc)
-                .Include(t => t.CpuTdp)
-                .Include(t => t.CpuRam)
-                .ThenInclude(t => t.MemoryType)
-                .Include(t => t.CpuBusAndController)
-                .Include(t => t.CpuGpuCore)
-                .FirstOrDefaultAsync(t => t.Id == cpuId);
+            /*TODO: Переписать исключение*/
+            return await _context.Cpus.FindAsync(cpuId) ?? throw new ArgumentNullException("Not Found Cpu");
         }
     }
 }
