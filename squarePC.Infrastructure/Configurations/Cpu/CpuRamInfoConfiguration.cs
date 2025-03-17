@@ -1,6 +1,5 @@
-using Microsoft.EntityFrameworkCore;
+/*using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using squarePC.Domain.Aggregates.CpuAggregate;
 
 namespace squarePC.Infrastructure.Configurations.Cpu
 {
@@ -34,4 +33,4 @@ namespace squarePC.Infrastructure.Configurations.Cpu
                 .HasColumnName("SupportECC");
         }
     }
-}
+}*/

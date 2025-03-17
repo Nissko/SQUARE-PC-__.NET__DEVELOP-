@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using squarePC.Domain.Aggregates.CpuAggregate;
+using CpuEntity = squarePC.Domain.Aggregates.CpuAggregate.CpuEntity;
 
 namespace squarePC.Infrastructure.Configurations.Cpu
 {
@@ -25,7 +25,7 @@ namespace squarePC.Infrastructure.Configurations.Cpu
                 .Property<int>("_cpuCount")
                 .HasColumnName("CpuCount");
             
-            cpuConfiguration.HasOne(c=> c.CpuMainInfo)
+            /*cpuConfiguration.HasOne(c=> c.CpuMainInfo)
                 .WithMany()
                 .HasForeignKey("_cpuMainInfoId");
             
@@ -51,7 +51,7 @@ namespace squarePC.Infrastructure.Configurations.Cpu
             
             cpuConfiguration.HasOne(c=> c.CpuGpuCore)
                 .WithMany()
-                .HasForeignKey("_cpuGpuCoreId");
+                .HasForeignKey("_cpuGpuCoreId");*/
         }
     }
 }

@@ -1,5 +1,5 @@
 using MediatR;
-using squarePC.Domain.Aggregates.CpuAggregate;
+using CpuEntity = squarePC.Domain.Aggregates.CpuAggregate.CpuEntity;
 
 namespace squarePC.Application.Application.Queries.Cpus
 {

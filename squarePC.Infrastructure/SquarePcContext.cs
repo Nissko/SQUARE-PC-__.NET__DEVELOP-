@@ -2,9 +2,9 @@
 using squarePC.Application.Common.Interfaces;
 using squarePC.Domain.Aggregates.CpuAggregate;
 using squarePC.Domain.Aggregates.Image;
-using squarePC.Domain.Enums.CpuEnums;
 using squarePC.Infrastructure.Configurations.Cpu;
 using squarePC.Infrastructure.Configurations.Image.ProductImage;
+using CpuEntity = squarePC.Domain.Aggregates.CpuAggregate.CpuEntity;
 
 namespace squarePC.Infrastructure
 {
@@ -19,18 +19,7 @@ namespace squarePC.Infrastructure
         #region CPU
 
         public DbSet<CpuEntity> Cpus { get; set; }
-        public DbSet<CpuMainInfoEntity> CpuMainInfos { get; set; }
-        public DbSet<CpuCoreAndArchitectureEntity> CpuCoreAndArchitectures { get; set; }
-        public DbSet<CpuClocksAndOcEntity> CpuClocksAndOcs { get; set; }
-        public DbSet<CpuTdpInfoEntity> CpuTdpInfos { get; set; }
-        public DbSet<CpuRamInfoEntity> CpuRamInfos { get; set; }
-        public DbSet<CpuBusAndControllersEntity> CpuBusAndControllers { get; set; }
-        public DbSet<CpuGpuCoreInfoEntity> CpuGpuCoreInfos { get; set; }
         public DbSet<CpuImageEntity> CpuImages { get; set; }
-        public DbSet<CpuFamilyEnum> CpuFamilies { get; set; }
-        public DbSet<CpuMemoryTypeEnum> CpuMemoryTypes { get; set; }
-        public DbSet<CpuSocketEnum> CpuSockets { get; set; }
-        
 
         #endregion
         
@@ -44,16 +33,6 @@ namespace squarePC.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CpuConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuMainInfoConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuCoreAndArchitectureConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuClocksAndOcConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuTdpInfoConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuRamInfoConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuBusAndControllerConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuGpuCoreInfoConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuFamilyConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuMemoryTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new CpuSocketConfiguration());
             modelBuilder.ApplyConfiguration(new CpuImageConfiguration());
 
             modelBuilder.ApplyConfiguration(new ImageProductConfiguration());

@@ -1,6 +1,5 @@
 using System.Net.Mime;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using squarePC.Application.Application.Commands.Cpus;
 using squarePC.Application.Application.Queries.Cpus;

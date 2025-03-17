@@ -1,22 +1,10 @@
-using squarePC.Domain.Common;
-
 namespace squarePC.Domain.Aggregates.CpuAggregate
 {
     /// <summary>
     /// Графическое ядро процессора
     /// </summary>
-    public class CpuGpuCoreInfoEntity : Entity
+    public sealed partial class CpuEntity
     {
-        public CpuGpuCoreInfoEntity(bool hasGpuCore, string cpuModelGraphCore, int cpuMaxClockGraphCore,
-            int cpuGraphBlocks, int cpuShadingUnits)
-        {
-            _hasGpuCore = hasGpuCore;
-            _cpuModelGraphCore = cpuModelGraphCore;
-            _cpuMaxClockGraphCore = cpuMaxClockGraphCore;
-            _cpuGraphBlocks = cpuGraphBlocks;
-            _cpuShadingUnits = cpuShadingUnits;
-        }
-
         /// <summary>
         /// Есть ли графическое ядро (Да/Нет)
         /// </summary>
@@ -47,16 +35,17 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         private int _cpuShadingUnits;
         public int CpuShadingUnits => _cpuShadingUnits;
 
-        public async Task<CpuGpuCoreInfoEntity> UpdateGpuCore(bool? hasGpuCore, string cpuModelGraphCore,
+        public async Task UpdateGpuCore(bool? hasGpuCore, string? cpuModelGraphCore,
             int? cpuMaxClockGraphCore, int? cpuGraphBlocks, int? cpuShadingUnits)
         {
-            _hasGpuCore = hasGpuCore?? _hasGpuCore;
-            _cpuModelGraphCore = cpuModelGraphCore?? _cpuModelGraphCore;
-            _cpuMaxClockGraphCore = cpuMaxClockGraphCore?? _cpuMaxClockGraphCore;
-            _cpuGraphBlocks = cpuGraphBlocks?? _cpuGraphBlocks;
-            _cpuShadingUnits = cpuShadingUnits?? _cpuShadingUnits;
-
-            return this;
+            _hasGpuCore = hasGpuCore ?? _hasGpuCore;
+            _cpuModelGraphCore = cpuModelGraphCore ?? _cpuModelGraphCore;
+            _cpuMaxClockGraphCore = cpuMaxClockGraphCore ?? _cpuMaxClockGraphCore;
+            _cpuGraphBlocks = cpuGraphBlocks ?? _cpuGraphBlocks;
+            _cpuShadingUnits = cpuShadingUnits ?? _cpuShadingUnits;
+            
+            
+            await Task.CompletedTask;
         }
     }
 }

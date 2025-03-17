@@ -1,23 +1,10 @@
-using squarePC.Domain.Common;
-
 namespace squarePC.Domain.Aggregates.CpuAggregate
 {
     /// <summary>
     /// Частота и возможность разгона процессора
     /// </summary>
-    public class CpuClocksAndOcEntity : Entity
+    public sealed partial class CpuEntity
     {
-        
-        public CpuClocksAndOcEntity(decimal baseClock, decimal turboClock, decimal baseClockECore,
-            decimal turboClockECore, bool freeMultiplier)
-        {
-            _baseClock = baseClock;
-            _turboClock = turboClock;
-            _baseClockECore = baseClockECore;
-            _turboClockECore = turboClockECore;
-            _freeMultiplier = freeMultiplier;
-        }
-        
         /// <summary>
         /// Базовая частота процессора
         /// </summary>
@@ -48,7 +35,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         private bool _freeMultiplier;
         public string CpuFreeMultiplier => _freeMultiplier ? "Да" : "Нет";
 
-        public async Task<CpuClocksAndOcEntity> UpdateClocksAndOc(decimal? updateBaseClock, decimal? updateTurboClock,
+        public async Task UpdateClocksAndOc(decimal? updateBaseClock, decimal? updateTurboClock,
             decimal? updateBaseClockECore, decimal? updateTurboClockECore, bool? updateFreeMultiplier)
         {
             _baseClock = updateBaseClock ?? _baseClock;
@@ -57,7 +44,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             _turboClockECore = updateTurboClockECore ?? _turboClockECore;
             _freeMultiplier = updateFreeMultiplier ?? _freeMultiplier;
 
-            return this;
+            await Task.CompletedTask;
         }
     }
 }

@@ -6,26 +6,77 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     /// Процессор
     /// TODO: Предусмотреть добавления изображения
     /// TODO: Исправить баги, недочеты
+    /// TODO: Переписать доменку(исправить недочеты привести к одному виду)
     /// </summary>
-    public class CpuEntity : Entity
+    public sealed partial class CpuEntity : Entity
     {
         public CpuEntity() { }
 
-        public CpuEntity(decimal cpuPrice, int cpuCount, CpuMainInfoEntity cpuMainInfo,
-            CpuCoreAndArchitectureEntity cpuCoreAndArchitecture,
-            CpuClocksAndOcEntity cpuClocksAndOc, CpuTdpInfoEntity cpuTdp, CpuRamInfoEntity cpuRam,
-            CpuBusAndControllersEntity cpuBusAndController, CpuGpuCoreInfoEntity cpuGpuCore)
+
+        public CpuEntity(decimal cpuPrice, int cpuCount, Guid familyCpuId, string model, Guid socketId,
+            string codeManufacture, DateTime releaseDate, string warranty, int pCores, int eCores, string cacheL2,
+            string cacheL3, int technoProcess, string coreName, bool virtualization, decimal baseClock,
+            decimal turboClock, decimal baseClockECore, decimal turboClockECore, bool freeMultiplier, int tdp,
+            int baseTdp, int maxTempCpu, Guid memoryTypeId, int maxValueMemory, int maxChannelMemory, int clockMemory,
+            bool supportEcc, string pciExpressControllerVersion, int countLinesPciExpress, bool hasGpuCore,
+            string cpuModelGraphCore, int cpuMaxClockGraphCore, int cpuGraphBlocks, int cpuShadingUnits)
         {
+            //базовые данные
             _cpuPrice = cpuPrice > 0 ? cpuPrice : 0;
             _cpuCount = cpuCount > 0 ? cpuCount : 0;
-            CpuMainInfo = cpuMainInfo;
-            CpuCoreAndArchitecture = cpuCoreAndArchitecture;
-            CpuClocksAndOc = cpuClocksAndOc;
-            CpuTdp = cpuTdp;
-            CpuRam = cpuRam;
-            CpuBusAndController = cpuBusAndController;
-            CpuGpuCore = cpuGpuCore;
-            _inStock = _cpuCount > 0 ? true : false;
+            _inStock = _cpuCount > 0;
+
+            //основные данные
+            _familyCpuId = familyCpuId == Guid.Empty
+                ? throw new ArgumentNullException(nameof(familyCpuId))
+                : familyCpuId;
+            _model = model ?? throw new ArgumentNullException(nameof(model));
+            _name = CpuNameFunction(_familyCpuId, _model);
+            _socketId = socketId;
+            _codeManufacture = codeManufacture;
+            _releaseDate = releaseDate;
+            _warranty = warranty;
+
+            //ядро и архитектура
+            _pCores = pCores;
+            _eCores = eCores;
+            _allCores = _pCores + _eCores;
+            _cacheL2 = cacheL2;
+            _cacheL3 = cacheL3;
+            _technoProcess = technoProcess;
+            _coreName = coreName;
+            _virtualization = virtualization;
+            _allThreads = CalculationAllTheadsFunction(_pCores, _eCores, _virtualization);
+
+            //частота и возможность разгона
+            _baseClock = baseClock;
+            _turboClock = turboClock;
+            _baseClockECore = baseClockECore;
+            _turboClockECore = turboClockECore;
+            _freeMultiplier = freeMultiplier;
+
+            //тепловые характеристики
+            _tdp = tdp;
+            _baseTdp = baseTdp;
+            _maxTempCpu = maxTempCpu;
+
+            //параметры ОЗУ
+            _memoryTypeId = memoryTypeId;
+            _maxValueMemory = maxValueMemory;
+            _maxChannelMemory = maxChannelMemory;
+            _clockMemory = clockMemory;
+            _supportECC = supportEcc;
+
+            //шина и контроллер
+            _pciExpressControllerVersion = pciExpressControllerVersion;
+            _countLinesPciExpress = countLinesPciExpress;
+
+            //графическое ядро
+            _hasGpuCore = hasGpuCore;
+            _cpuModelGraphCore = cpuModelGraphCore;
+            _cpuMaxClockGraphCore = cpuMaxClockGraphCore;
+            _cpuGraphBlocks = cpuGraphBlocks;
+            _cpuShadingUnits = cpuShadingUnits;
         }
 
         /// <summary>
@@ -37,7 +88,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         /// <summary>
         /// Наличие процессора
         /// </summary>
-        public string InStock => _inStock ? "Да" : "Нет";
+        public bool InStock => _inStock;
         private bool _inStock;
 
         /// <summary>
@@ -46,86 +97,38 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         public int CpuCount => _cpuCount;
         private int _cpuCount;
         
-        /// <summary>
-        /// Общие параметры
-        /// </summary>
-        public virtual CpuMainInfoEntity CpuMainInfo { get; private set; }
-        private Guid _cpuMainInfoId;
-        
-        /// <summary>
-        /// Ядро и архитектура
-        /// </summary>
-        public virtual CpuCoreAndArchitectureEntity CpuCoreAndArchitecture { get; private set; }
-        private Guid _cpuCoreAndArchitectureId;
-        
-        /// <summary>
-        /// Частота и возможность разгона
-        /// </summary>
-        public virtual CpuClocksAndOcEntity CpuClocksAndOc { get; private set; }
-        private Guid _cpuClocksAndOcId;
-        
-        /// <summary>
-        /// Тепловые характеристики
-        /// </summary>
-        public virtual CpuTdpInfoEntity CpuTdp { get; private set; }
-        private Guid _cpuTdpId;
-        
-        /// <summary>
-        /// Параметры ОЗУ
-        /// </summary>
-        public virtual CpuRamInfoEntity CpuRam { get; private set; }
-        private Guid _cpuRamId;
-        
-        /// <summary>
-        /// Шина и контроллер
-        /// </summary>
-        public virtual CpuBusAndControllersEntity CpuBusAndController { get; private set; }
-        private Guid _cpuBusAndControllerId;
-        
-        /// <summary>
-        /// Графическое ядро
-        /// </summary>
-        public virtual CpuGpuCoreInfoEntity CpuGpuCore { get; private set; }
-        private Guid _cpuGpuCoreId;
-        
-        public virtual ICollection<CpuImageEntity> CpuImages { get; private set; }
+        public ICollection<CpuImageEntity> CpuImages { get; private set; }
 
-        public async Task<CpuEntity> UpdateCpu(Guid cpuId, decimal? updatePrice, int? updateCount, Guid? familyCpuId,
-            string modelCpu, Guid? socketId, string codeManufacture, DateTime? releaseDate, string warranty,
-            int? updatePCores, int? updateECores, string updateCacheL2, string updateCacheL3, int? updateTechnoProcess,
-            string updateCoreName, bool? updateVirtualization, decimal? updateBaseClock, decimal? updateTurboClock,
-            decimal? updateBaseClockECore, decimal? updateTurboClockECore, bool? updateFreeMultiplier, int? updateTdp,
-            int? updateBaseTdp, int? updateMaxTempCpu, Guid memoryTypeId, int? maxValueMemory, int? maxChannelMemory,
-            int? clockMemory, bool? supportEcc, string pciExpressControllerVersion, int countLinesPciExpress,
-            bool? hasGpuCore, string cpuModelGraphCore, int? cpuMaxClockGraphCore, int? cpuGraphBlocks,
-            int? cpuShadingUnits)
+        #region Update
 
+        /// <summary>
+        /// Изменение цены и количества
+        /// </summary>
+        public async void UpdateCpuPriceAndCountAsync(CpuEntity cpuEntity)
         {
-            if (!Id.Equals(cpuId))
-            {
-                /*TODO: Переделать исключение*/
-                throw new ArgumentException("Invalid");
-            }
-
-            _cpuPrice = updatePrice ?? _cpuPrice;
-            _cpuCount = updateCount ?? _cpuCount;
-            _inStock = _cpuCount > 0 ? true : false;
-
-            CpuMainInfo = await CpuMainInfo.UpdateMainInfo(familyCpuId, modelCpu, socketId, codeManufacture,
-                releaseDate, warranty);
-            CpuCoreAndArchitecture = await CpuCoreAndArchitecture.UpdateCoreAndArchitecture(updatePCores, updateECores,
-                updateCacheL2, updateCacheL3, updateTechnoProcess, updateCoreName, updateVirtualization);
-            CpuClocksAndOc = await CpuClocksAndOc.UpdateClocksAndOc(updateBaseClock, updateTurboClock,
-                updateBaseClockECore, updateTurboClockECore, updateFreeMultiplier);
-            CpuTdp = await CpuTdp.UpdateTdp(updateTdp, updateBaseTdp, updateMaxTempCpu);
-            CpuRam = await CpuRam.UpdateRam(memoryTypeId, maxValueMemory, maxChannelMemory, clockMemory, supportEcc);
-            CpuBusAndController =
-                await CpuBusAndController.UpdateBusAndController(pciExpressControllerVersion, countLinesPciExpress);
-            CpuGpuCore = await CpuGpuCore.UpdateGpuCore(hasGpuCore, cpuModelGraphCore, cpuMaxClockGraphCore,
-                cpuGraphBlocks, cpuShadingUnits);
-
-            return this;
+            await UpdatePrice(cpuEntity._cpuPrice);
+            await UpdateCount(cpuEntity._cpuCount);
         }
 
+        /// <summary>
+        /// Изменение цены
+        /// </summary>
+        private async Task UpdatePrice(decimal? price)
+        {
+            _cpuPrice = price ?? _cpuPrice;
+        }
+        
+        /// <summary>
+        /// Изменение кол-ва
+        /// </summary>
+        private async Task UpdateCount(int? count)
+        {
+            _cpuCount = count ?? _cpuCount;
+            _inStock = _cpuCount > 0;
+            
+            await Task.CompletedTask;
+        }
+
+        #endregion
     }
 }

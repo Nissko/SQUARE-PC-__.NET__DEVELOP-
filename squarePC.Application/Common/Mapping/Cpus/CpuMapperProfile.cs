@@ -1,6 +1,6 @@
 using squarePC.Application.Common.Interfaces;
 using squarePC.Application.DTO.Cpu;
-using squarePC.Domain.Aggregates.CpuAggregate;
+using CpuEntity = squarePC.Domain.Aggregates.CpuAggregate.CpuEntity;
 
 namespace squarePC.Application.Common.Mapping.Cpus
 {
@@ -13,60 +13,39 @@ namespace squarePC.Application.Common.Mapping.Cpus
                 CpuId = cpu.Id,
                 Price = cpu.Price,
                 Count = cpu.CpuCount,
-                MainInfo = new CpuMainInfoDto()
-                {
-                    FamilyCpuId = cpu.CpuMainInfo.CpuFamily.Id,
-                    Model = cpu.CpuMainInfo.CpuModel,
-                    SocketId = cpu.CpuMainInfo.CpuSocket.Id,
-                    ReleaseDate = cpu.CpuMainInfo.CpuReleaseDate,
-                    Warranty = cpu.CpuMainInfo.CpuWarranty,
-                    CodeManufacture = cpu.CpuMainInfo.CpuManufacture
-                },
-                CoreAndArchitecture = new CpuCoreAndArchitectureDto()
-                {
-                    CacheL2 = cpu.CpuCoreAndArchitecture.CpuCacheL2,
-                    CacheL3 = cpu.CpuCoreAndArchitecture.CpuCacheL3,
-                    CoreName = cpu.CpuCoreAndArchitecture.CpuCoreName,
-                    ECore = cpu.CpuCoreAndArchitecture.CpuECores,
-                    PCore = cpu.CpuCoreAndArchitecture.CpuPCores,
-                    TechnoProcess = cpu.CpuCoreAndArchitecture.CpuTechnoProcess,
-                    Virtualization = cpu.CpuCoreAndArchitecture.CpuVirtualisation
-                },
-                ClocksAndOc = new CpuClocksAndOcDto
-                {
-                    BaseClock = cpu.CpuClocksAndOc.CpuBaseClock,
-                    TurboClock = cpu.CpuClocksAndOc.CpuTurboClock,
-                    BaseClockECore = cpu.CpuClocksAndOc.CpuBaseClockECore,
-                    TurboClockECore = cpu.CpuClocksAndOc.CpuTurboClockECore,
-                    FreeMultiplier = cpu.CpuClocksAndOc.CpuFreeMultiplier
-                },
-                Tdp = new CpuTdpDto
-                {
-                    Tdp = cpu.CpuTdp.TDP,
-                    BaseTdp = cpu.CpuTdp.BaseTDP,
-                    MaxTempCpu = cpu.CpuTdp.MaxTempCPU,
-                },
-                Ram = new CpuRamDto
-                {
-                    MemoryTypeId = cpu.CpuRam.MemoryType.Id,
-                    MaxValueMemory = cpu.CpuRam.MaxValueMemory,
-                    MaxChannelMemory = cpu.CpuRam.MaxChannelMemory,
-                    ClockMemory = cpu.CpuRam.ClockMemory,
-                    SupportEcc = cpu.CpuRam.SupportECC
-                },
-                BusAndController = new CpuBusAndControllerDto
-                {
-                    PciExpressControllerVersion = cpu.CpuBusAndController.PciExpressControllerVersion,
-                    CountLinesPciExpress = cpu.CpuBusAndController.CountLinesPciExpress
-                },
-                GpuCore = new CpuGpuCoreDto
-                {
-                    HasGpuCore = cpu.CpuGpuCore.CpuHasGpuCore,
-                    CpuModelGraphCore = cpu.CpuGpuCore.CpuModelGraphCore,
-                    CpuMaxClockGraphCore = cpu.CpuGpuCore.CpuMaxClockGraphCore,
-                    CpuGraphBlocks = cpu.CpuGpuCore.CpuGraphBlocks.ToString(),
-                    CpuShadingUnits = cpu.CpuGpuCore.CpuShadingUnits.ToString()
-                }
+                FamilyCpuId = cpu.CpuFamily.Id,
+                Model = cpu.CpuModel,
+                SocketId = cpu.CpuSocket.Id,
+                CodeManufacture = cpu.CpuManufacture,
+                ReleaseDate = cpu.CpuReleaseDate,
+                Warranty = cpu.CpuWarranty,
+                PCores = cpu.CpuPCores,
+                ECores = cpu.CpuECores,
+                CacheL2 = cpu.CpuCacheL2,
+                CacheL3 = cpu.CpuCacheL3,
+                TechnoProcess = cpu.CpuTechnoProcess,
+                CoreName = cpu.CpuCoreName,
+                Virtualization = cpu.CpuVirtualisation,
+                BaseClock = cpu.CpuBaseClock,
+                TurboClock = cpu.CpuTurboClock,
+                BaseClockECore = cpu.CpuBaseClockECore,
+                TurboClockECore = cpu.CpuTurboClockECore,
+                FreeMultiplier = cpu.CpuFreeMultiplier,
+                Tdp = cpu.Tdp,
+                BaseTdp = cpu.BaseTdp,
+                MaxTempCpu = cpu.MaxTempCpu,
+                MemoryTypeId = cpu.MemoryType.Id,
+                MaxValueMemory = cpu.MaxValueMemory,
+                MaxChannelMemory = cpu.MaxChannelMemory,
+                ClockMemory = cpu.ClockMemory,
+                SupportEcc = cpu.SupportECC,
+                PciExpressControllerVersion = cpu.PciExpressControllerVersion,
+                CountLinesPciExpress = cpu.CountLinesPciExpress,
+                HasGpuCore = cpu.CpuHasGpuCore,
+                CpuModelGraphCore = cpu.CpuModelGraphCore,
+                CpuMaxClockGraphCore = cpu.CpuMaxClockGraphCore,
+                CpuGraphBlocks = cpu.CpuGraphBlocks,
+                CpuShadingUnits = cpu.CpuShadingUnits
             };
         }
     }

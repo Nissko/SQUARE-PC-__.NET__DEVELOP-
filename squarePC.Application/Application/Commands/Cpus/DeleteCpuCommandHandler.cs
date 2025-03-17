@@ -1,6 +1,5 @@
 using MediatR;
 using squarePC.Application.Application.Interfaces.Cpu;
-using squarePC.Application.Exceptions.CpusApplicationException;
 
 namespace squarePC.Application.Application.Commands.Cpus
 {

@@ -8,7 +8,7 @@ using squarePC.Infrastructure;
 
 #nullable disable
 
-namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbContext_v0._0._1
+namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbContext_v0._0._0
 {
     [DbContext(typeof(SquarePcContext))]
     partial class SquarePcContextModelSnapshot : ModelSnapshot
@@ -18,6 +18,9 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -26,9 +29,6 @@ namespace squarePC.Infrastructure.Persistence.Providers.Migrations.SquarePcDbCon
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CpuId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("_countLinesPciExpress")

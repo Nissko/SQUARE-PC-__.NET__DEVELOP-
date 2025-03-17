@@ -1,6 +1,5 @@
 using MediatR;
 using squarePC.Application.DTO.Cpu;
-using squarePC.Domain.Aggregates.CpuAggregate;
 
 namespace squarePC.Application.Application.Commands.Cpus
 {

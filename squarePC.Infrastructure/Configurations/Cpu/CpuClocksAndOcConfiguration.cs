@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using squarePC.Domain.Aggregates.CpuAggregate;
+using CpuEntity = squarePC.Domain.Aggregates.CpuAggregate.CpuEntity;
 
 namespace squarePC.Infrastructure.Configurations.Cpu
 {
     class CpuClocksAndOcConfiguration
-        : IEntityTypeConfiguration<CpuClocksAndOcEntity>
+        : IEntityTypeConfiguration<CpuEntity>
     {
-        public void Configure(EntityTypeBuilder<CpuClocksAndOcEntity> cpuConfiguration)
+        public void Configure(EntityTypeBuilder<CpuEntity> cpuConfiguration)
         {
             cpuConfiguration.ToTable("CpuClocksAndOcs");
 

@@ -6,24 +6,24 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     /// <summary>
     /// Изображение процессоров
     /// </summary>
-    public class CpuImageEntity : Entity
+    public sealed class CpuImageEntity : Entity
     {
-        public CpuImageEntity(Guid cpuId, Guid imgId)
+        public CpuImageEntity(CpuEntity cpu, ImageProductsEntity image)
         {
-            _cpuId = cpuId;
-            _imgId = imgId;
+            _cpuId = cpu.Id;
+            _imgId = image.Id;
         }
         
         /// <summary>
         /// Сущность процессоров
         /// </summary>
-        public virtual CpuEntity Cpu { get; private set; }
+        public CpuEntity Cpu { get; private set; }
         private Guid _cpuId;
 
         /// <summary>
         /// Сущность изображений
         /// </summary>
-        public virtual ImageProductsEntity Image { get; private set; }
+        public ImageProductsEntity Image { get; private set; }
         private Guid _imgId;
     }
 }

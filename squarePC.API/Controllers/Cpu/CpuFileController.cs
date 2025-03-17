@@ -1,7 +1,6 @@
 using System.Net.Mime;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using squarePC.Application.Application.Commands.Cpus.Images;
 
 namespace squarePC.API.Controllers.Cpu
 {

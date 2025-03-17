@@ -1,26 +1,10 @@
-using squarePC.Domain.Common;
-
 namespace squarePC.Domain.Aggregates.CpuAggregate
 {
     /// <summary>
     /// Ядро и архитектура процессора
     /// </summary>
-    public class CpuCoreAndArchitectureEntity : Entity
+    public partial class CpuEntity
     {
-        public CpuCoreAndArchitectureEntity(int pCores, int eCores, string cacheL2, string cacheL3,
-            int technoProcess, string coreName, bool virtualization)
-        {
-            _pCores = pCores;
-            _eCores = eCores;
-            _allCores = _pCores + _eCores;
-            _cacheL2 = cacheL2;
-            _cacheL3 = cacheL3;
-            _technoProcess = technoProcess;
-            _coreName = coreName;
-            _virtualization = virtualization;
-            _allThreads = CalculationAllTheadsFunction(_pCores, _eCores, _virtualization);
-        }
-        
         /// <summary>
         /// Общее количество ядер
         /// </summary>
@@ -83,12 +67,12 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             if (virtualization)
                 pCores *= 2;
 
-            var totalThreads = pCores + eCores;
-
-            return totalThreads;
+            return pCores + eCores;
         }
 
-        public async Task<CpuCoreAndArchitectureEntity> UpdateCoreAndArchitecture(int? updatePCores, int? updateECores,
+        #region Update
+
+        public async Task UpdateCoreAndArchitecture(int? updatePCores, int? updateECores,
             string updateCacheL2, string updateCacheL3, int? updateTechnoProcess, string updateCoreName,
             bool? updateVirtualization)
         {
@@ -102,7 +86,9 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             _virtualization = updateVirtualization ?? _virtualization;
             _allThreads = CalculationAllTheadsFunction(_pCores, _eCores, _virtualization);
 
-            return this;
+            await Task.CompletedTask;
         }
+        
+        #endregion
     }
 }

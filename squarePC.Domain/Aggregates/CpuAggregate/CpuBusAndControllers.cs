@@ -1,18 +1,10 @@
-using squarePC.Domain.Common;
-
 namespace squarePC.Domain.Aggregates.CpuAggregate
 {
     /// <summary>
     /// Шина и контроллер процессора
     /// </summary>
-    public class CpuBusAndControllersEntity : Entity
+    public sealed partial class CpuEntity
     {
-        public CpuBusAndControllersEntity(string pciExpressControllerVersion, int countLinesPciExpress)
-        {
-            _pciExpressControllerVersion = pciExpressControllerVersion;
-            _countLinesPciExpress = countLinesPciExpress;
-        }
-
         /// <summary>
         /// Встроенный контроллер PCI Express
         /// </summary>
@@ -25,13 +17,13 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         private int _countLinesPciExpress;
         public int CountLinesPciExpress => _countLinesPciExpress;
 
-        public async Task<CpuBusAndControllersEntity> UpdateBusAndController(string pciExpressControllerVersion,
+        public async Task UpdateBusAndController(string pciExpressControllerVersion,
             int countLinesPciExpress)
         {
             _pciExpressControllerVersion = pciExpressControllerVersion;
             _countLinesPciExpress = countLinesPciExpress;
 
-            return this;
+            await Task.CompletedTask;
         }
     }
 }

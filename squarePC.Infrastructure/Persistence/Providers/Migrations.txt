@@ -1,5 +1,5 @@
 1)
-Add-Migration -Context SquarePcContext -o Persistence\Providers\Migrations\SquarePcDbContext_v0.0.3
+Add-Migration -Context SquarePcContext -o Persistence\Providers\Migrations\SquarePcDbContext_v0.0.1
 
 2) 
 Update-DataBase -context SquarePcContext

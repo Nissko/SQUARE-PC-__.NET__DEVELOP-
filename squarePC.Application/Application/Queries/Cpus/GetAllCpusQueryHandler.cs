@@ -1,8 +1,7 @@
 using MediatR;
 using squarePC.Application.Application.Interfaces.Cpu;
 using squarePC.Application.Common.Interfaces;
-using squarePC.Application.DTO.Cpu;
-using squarePC.Domain.Aggregates.CpuAggregate;
+using CpuEntity = squarePC.Domain.Aggregates.CpuAggregate.CpuEntity;
 
 namespace squarePC.Application.Application.Queries.Cpus
 {

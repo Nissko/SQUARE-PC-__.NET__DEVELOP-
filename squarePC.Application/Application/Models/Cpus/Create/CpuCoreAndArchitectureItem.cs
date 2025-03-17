@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace squarePC.Application.Application.Models.Cpus.Create
 {
     public class CpuCoreAndArchitectureItem

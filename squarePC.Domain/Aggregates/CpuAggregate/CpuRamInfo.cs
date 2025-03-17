@@ -1,4 +1,3 @@
-using squarePC.Domain.Common;
 using squarePC.Domain.Enums.CpuEnums;
 
 namespace squarePC.Domain.Aggregates.CpuAggregate
@@ -6,25 +5,13 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
     /// <summary>
     /// Параметры ОЗУ процессора
     /// </summary>
-    public class CpuRamInfoEntity : Entity
+    public partial class CpuEntity
     {
-        public CpuRamInfoEntity() { }
-
-        public CpuRamInfoEntity(Guid memoryTypeId, int maxValueMemory, int maxChannelMemory, int clockMemory,
-            bool supportEcc)
-        {
-            _memoryTypeId = memoryTypeId;
-            _maxValueMemory = maxValueMemory;
-            _maxChannelMemory = maxChannelMemory;
-            _clockMemory = clockMemory;
-            _supportECC = supportEcc;
-        }
-        
         /// <summary>
         /// Тип поддерживаемой памяти
         /// </summary>
         private Guid _memoryTypeId;
-        public virtual CpuMemoryTypeEnum MemoryType { get; private set; }
+        public CpuMemoryTypeEnum MemoryType { get; private set; }
 
         /// <summary>
         /// Максимально поддерживаемый объем памяти
@@ -50,7 +37,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
         private bool _supportECC;
         public string SupportECC => _supportECC ? "Да" : "Нет";
 
-        public async Task<CpuRamInfoEntity> UpdateRam(Guid memoryTypeId, int? maxValueMemory, int? maxChannelMemory,
+        public async Task UpdateRam(Guid memoryTypeId, int? maxValueMemory, int? maxChannelMemory,
             int? clockMemory, bool? supportEcc)
         {
             _memoryTypeId = memoryTypeId;
@@ -59,7 +46,7 @@ namespace squarePC.Domain.Aggregates.CpuAggregate
             _clockMemory = clockMemory?? _clockMemory;
             _supportECC = supportEcc?? _supportECC;
 
-            return this;
+            await Task.CompletedTask;
         }
     }
 }

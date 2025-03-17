@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using squarePC.Application.Application.Extensions;
 using squarePC.Application.Application.Interfaces.Cpu;
 using squarePC.Application.Common.Interfaces;
-using squarePC.Application.Common.Mapping;
 using squarePC.Infrastructure.Repositories.Cpu;
 
 namespace squarePC.Infrastructure.Extensions
